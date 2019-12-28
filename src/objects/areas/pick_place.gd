@@ -4,7 +4,7 @@ extends Area2D
 PickPlace é uma Area2D que permite que objetos sejam inseridos na Position2D current_object.
 """
 var is_burning: bool setget set_is_burning
-onready var pos_current_object := $CurrentObject
+onready var pos_current_object: Position2D = $CurrentObject
 
 func _on_FireParticles_fire_finished() -> void:
 	is_burning = false

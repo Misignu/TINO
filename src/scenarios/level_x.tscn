@@ -300,6 +300,9 @@ level_coins = 100
 
 [node name="PauseBreak" parent="." instance=ExtResource( 8 )]
 
+[node name="ColorRect" parent="PauseBreak/CanvasLayer" index="1"]
+color = Color( 0.218228, 0, 0.479323, 0.00966355 )
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 autoplay = true
@@ -307,3 +310,5 @@ bus = "Music"
 [connection signal="object_delivered" from="Scene/SceneObjects/Trash" to="Scene/SceneObjects/DirtPlatesTable" method="_on_Trash_object_delivered"]
 [connection signal="object_delivered" from="Scene/SceneObjects/Treadmill" to="Scene/SceneObjects/DirtPlatesTable" method="_on_Treadmill_object_delivered"]
 [connection signal="recipe_delived" from="Scene/SceneObjects/Treadmill" to="HUD" method="_on_Treadmill_recipe_delived"]
+
+[editable path="PauseBreak"]

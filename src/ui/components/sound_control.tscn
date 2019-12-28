@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/ui/components/sound_control.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/hud/hud.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 80, 16, 16, 16 )
+
+[node name="SoundControl" type="MarginContainer"]
+margin_right = 201.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 201, 34 )
+size_flags_horizontal = 3
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 199.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 197, 30 )
+custom_constants/separation = 0
+
+[node name="Mute" type="CheckBox" parent="HBoxContainer"]
+margin_right = 83.0
+margin_bottom = 30.0
+focus_neighbour_right = NodePath("../MarginContainer/HSlider")
+focus_next = NodePath("../MarginContainer/HSlider")
+custom_icons/checked = SubResource( 1 )
+custom_icons/unchecked = SubResource( 2 )
+text = "VOLUME"
+
+[node name="Padding" type="Control" parent="HBoxContainer"]
+margin_left = 83.0
+margin_right = 130.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+margin_left = 130.0
+margin_right = 197.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 67, 26 )
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 65.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 63, 0 )
+focus_neighbour_left = NodePath("../../Mute")
+focus_previous = NodePath("../../Mute")
+size_flags_vertical = 1
+min_value = 0.0001
+max_value = 1.0
+step = 0.1
+value = 1.0
+ticks_on_borders = true
+[connection signal="toggled" from="HBoxContainer/Mute" to="." method="_on_Mute_toggled"]
+[connection signal="value_changed" from="HBoxContainer/MarginContainer/HSlider" to="." method="_on_HSlider_value_changed"]

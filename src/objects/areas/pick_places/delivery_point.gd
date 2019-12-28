@@ -14,7 +14,9 @@ func _on_buffer_timeout(object: PickableObject, buffer: Timer) -> void:
 # @main
 func _buffer_delivery(object: PickableObject) -> void:
 	var buffer: = Timer.new()
+	var catch: int
 	
-	assert(buffer.connect("timeout", self, "_on_buffer_timeout", [object, buffer]) == OK)
+	catch = buffer.connect("timeout", self, "_on_buffer_timeout", [object, buffer])
+	assert(catch == OK)
 	add_child(buffer)
 	buffer.start(buffer_replacement_time)

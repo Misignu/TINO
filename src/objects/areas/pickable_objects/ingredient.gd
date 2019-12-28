@@ -1,5 +1,5 @@
 extends PickableObject
-class_name Ingredient
+class_name Ingredient, "res://assets/sprites/hud/ingredients.svg"
 
 """
 Igredients possuem uma série de tipos de preparo. Seus métodos reduzem esses tipos, conforme são ultilizados.
@@ -45,8 +45,9 @@ func _ready():
 	set_preparation_state()
 
 func prepare(action: String, timer: Timer) -> void:
+	var catch: int = timer.connect("timeout", self, str("_on_PreparationTimer_", action, "_timeout"), [timer])
 	
-	assert(timer.connect("timeout", self, str("_on_PreparationTimer_", action, "_timeout"), [timer]) == OK)
+	assert(catch == OK)
 
 func stop(action, timer: Timer) -> void:
 	

@@ -20,8 +20,8 @@ _global_script_classes=[ {
 "path": "res://src/objects/areas/pickable_object.gd"
 } ]
 _global_script_class_icons={
-"Ingredient": "",
-"PickableObject": ""
+"Ingredient": "res://assets/sprites/hud/ingredients.svg",
+"PickableObject": "res://assets/sprites/hud/drag.svg"
 }
 
 [application]

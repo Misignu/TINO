@@ -11,16 +11,18 @@ const ANIMATIONS = {
 export(String, FILE, "*pan.tscn") var pan_path = ""
 var is_fire_danger: bool setget set_is_fire_danger
 
-onready var alert_player := $FireAlert/AnimationPlayer
-onready var texture_rect := $FireAlert/TextureRect
+onready var alert_player: AnimationPlayer = $FireAlert/AnimationPlayer
+onready var texture_rect: TextureRect = $FireAlert/TextureRect
 
 func _ready() -> void:
 	var new_pan = load(pan_path).instance().grab()
+	var catch: bool
 	
 	if pan_path != "":
 		
 		new_pan.origin = get_parent().get_parent()
-		assert(insert_object(new_pan))
+		catch = insert_object(new_pan)
+		assert(catch)
 
 # @signals
 func _on_Ingredient_burning_started(is_firing: bool) -> void:
@@ -37,6 +39,7 @@ func _on_Ingredient_burning_started(is_firing: bool) -> void:
 # @main
 func insert_object(object: PickableObject) -> bool:
 	var inserted: bool
+	var catch: int
 	
 	if pos_current_object.get_child_count() == 0:
 		
@@ -47,7 +50,8 @@ func insert_object(object: PickableObject) -> bool:
 		
 		if pos_current_object.get_child(0).insert_ingredient(object):
 			
-			assert(object.connect("burning_started", self, "_on_Ingredient_burning_started") == OK)
+			catch = object.connect("burning_started", self, "_on_Ingredient_burning_started")
+			assert(catch == OK)
 			_start_cooking()
 			inserted = true
 	
@@ -92,9 +96,11 @@ func _insert_pan(pan: PickableObject) -> bool:
 
 func _copple(object: PickableObject, to_connect: bool = true) -> void:
 	var recipe: Node = object.get_recipe()
+	var catch: int
 	
 	if to_connect:
-		assert(work_timer.connect("timeout", object, "start_buffering") == OK)
+		catch = work_timer.connect("timeout", object, "start_buffering")
+		assert(catch == OK)
 		
 	else:
 		work_timer.disconnect("timeout", object, "start_buffering")
@@ -102,7 +108,8 @@ func _copple(object: PickableObject, to_connect: bool = true) -> void:
 	if recipe != null:
 		
 		if to_connect:
-			assert(recipe.connect("burning_started", self, "_on_Ingredient_burning_started") == OK)
+			catch = recipe.connect("burning_started", self, "_on_Ingredient_burning_started")
+			assert(catch == OK)
 			
 		else:
 			recipe.disconnect("burning_started", self, "_on_Ingredient_burning_started")

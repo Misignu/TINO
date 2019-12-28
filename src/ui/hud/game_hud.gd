@@ -15,15 +15,17 @@ var is_sliding: bool
 var order = preload("res://src/ui/hud/order.tscn")
 var references := Array()
 
-onready var clock_player := $CenterContainer/MarginContainer/Countdown/ClockTimer/AnimationPlayer
-onready var limit_timer := $LimitTimer
+onready var clock_player: AnimationPlayer = $CenterContainer/MarginContainer/Countdown/ClockTimer/AnimationPlayer
+onready var limit_timer: Timer = $LimitTimer
 
 func _ready():
+	var catch: int
 	randomize()
 	
 	if not Engine.is_editor_hint():
 		
-		assert(Game.connect("coins_changed", self, "_on_Game_coins_changed") == OK)
+		catch = Game.connect("coins_changed", self, "_on_Game_coins_changed")
+		assert(catch == OK)
 		Game.coins = level_coins
 		limit_timer.start(limit_time)
 		clock_player.play("clock")
@@ -52,7 +54,9 @@ func _on_NewOrderTimer_timeout():
 		_add_new_order()
 
 func _on_LimitTimer_timeout():
-	assert(get_tree().change_scene(NEXT_SCENE) == OK)
+	var catch: int = get_tree().change_scene(NEXT_SCENE)
+	
+	assert(catch == OK)
 
 func _on_SlideTimer_timeout():
 	is_sliding = false
@@ -80,6 +84,7 @@ func _add_new_order():
 	var new_order = order.instance()
 	var reference := _get_empty_reference()
 	var reference_position2d: Position2D
+	var catch: int
 	
 	new_order.get_node("LimitTimer").wait_time = rand_range(clients_min_wait_time, clients_max_wait_time)
 	
@@ -88,13 +93,12 @@ func _add_new_order():
 		reference_position2d = reference.get_node("Position2D")
 		reference_position2d.add_child(new_order)
 		
-		assert(
-			new_order.get_node("AnimationPlayer").connect(
-				"animation_finished", 
-				self, "_on_new_order_AnimationPlayer_animation_finished", 
-				[reference_position2d]
-			) == OK
+		catch = new_order.get_node("AnimationPlayer").connect(
+			"animation_finished", 
+			self, "_on_new_order_AnimationPlayer_animation_finished", 
+			[reference_position2d]
 		)
+		assert(catch == OK)
 	
 	$NewOrderTimer.start(rand_range(order_min_frequency, order_max_frequency))
 
@@ -153,15 +157,16 @@ func _moving_stack() -> void:
 
 func _slide_position2d(target: Position2D, tween: Tween, position: Vector2) -> void:
 	
-	assert(
+	var catch: bool = (
 		tween.interpolate_property(
 			target, "position", 
 			target.position, 
 			position,
-			MOVE_STACK_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-		and
+			MOVE_STACK_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT
+		) and
 		tween.start()
 	)
+	assert(catch)
 
 func _get_empty_reference() -> Node2D:
 	

@@ -6,7 +6,7 @@ export var shake_lenght: float = 1.0 # duration in secounds
 var stack_id: int setget set_stack_id
 var recipe := "Hamburger" setget, get_recipe
 
-onready var progress_bar := $MarginContainer/VBoxContainer/ElapsedTime/ProgressBar
+onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/ElapsedTime/ProgressBar
 
 func _ready():
 	
@@ -33,9 +33,12 @@ func complete():
 	$AnimationPlayer.play("done")
 
 func shake() -> void:
+	var catch: bool
 	
-	$Tween.interpolate_method(self, "move", Vector2(shake_amplitude, -shake_amplitude), rect_position, shake_lenght, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	assert($Tween.start())
+	catch = (
+		$Tween.interpolate_method(self, "move", Vector2(shake_amplitude, -shake_amplitude), rect_position, shake_lenght, Tween.TRANS_SINE, Tween.EASE_IN_OUT) and
+		$Tween.start()
+	)
 
 func move(target_position):
 	var rand := Vector2()

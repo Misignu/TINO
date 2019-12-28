@@ -36,12 +36,12 @@ var available_characters: = [
 	preload(\"res://assets/atlas/blue_guy_front.tres\")
 ]
 
-onready var join_the_party = \"[center]Press [color=#0bca6a]START[/color][/center]\\n[center]to join[/center]\\n[center]the party[/center]\" if Engine.editor_hint else tr(\"JOIN_THE_PARTY\")
-onready var boost_the_timer = tr(\"BOOST\")
+onready var join_the_party = _build_panel_message(\"Press\", \"to join\", \"the party\") if Engine.editor_hint else _build_panel_message(tr(\"PRESS\"), tr(\"JOIN\"), tr(\"PARTY\"))
+onready var boost_the_timer = _build_panel_message(tr(\"HOLD\"), tr(\"BOOST\"), tr(\"TIMER\"), \"ACTION\", \"{color}\")
+onready var instructions: Label = $MarginContainer/VBoxContainer/CenterContainer/Label
 onready var character_texture_rect: TextureRect = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/MarginContainer/TextureRect
 onready var button_right: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer/MarginContainer/LeftButton
 onready var button_left: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer2/MarginContainer/RightButton
-onready var instructions := $MarginContainer/VBoxContainer/CenterContainer/Label
 
 func _ready() -> void:
 	
@@ -137,6 +137,9 @@ func _get_availlable_character_id(base: int, use_next: bool) -> int:
 	
 	return id
 
+static func _build_panel_message(initial: String, middle: String, end: String, key: String = \"START\", emphasis_color: String = \"0bca6a\") -> String:
+	return \"[center]{0} [color=#{color}]{key}[/color][/center]\\n[center]{1}[/center]\\n[center]{2}[/center]\".format([initial, middle, end]).format({\"key\": key, \"color\": emphasis_color})
+
 # @setters
 func set_is_enabled(value: bool) -> void:
 	if not Engine.is_editor_hint():
@@ -174,7 +177,7 @@ func _on_Panel_base_color_changed(color: Color):
 	update()
 "
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.0431373, 0.792157, 0.415686, 1 )
 
 [sub_resource type="GDScript" id=6]
@@ -212,7 +215,7 @@ atlas = ExtResource( 3 )
 region = Rect2( 64, 16, 16, 16 )
 
 [sub_resource type="DynamicFont" id=12]
-size = 32
+size = 28
 font_data = ExtResource( 1 )
 
 [sub_resource type="GDScript" id=13]
@@ -274,7 +277,7 @@ margin_right = 215.0
 margin_bottom = 321.0
 rect_min_size = Vector2( 0, 220 )
 rect_clip_content = true
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 14 )
 script = SubResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
@@ -367,13 +370,15 @@ rect_min_size = Vector2( 215, 80 )
 rect_pivot_offset = Vector2( 412, 83 )
 custom_fonts/normal_font = SubResource( 12 )
 bbcode_enabled = true
-bbcode_text = "[center]Segure [color=#{color}]ACTION[/color][/center][/font] [center]para acelerar[/center]
-[center]o contador[/center]"
-text = "Segure ACTION[/font] para acelerar
-o contador"
+bbcode_text = "[center]Press [color=#0bca6a]START[/color][/center]
+[center]to join[/center]
+[center]the party[/center]"
+text = "Press START
+to join
+the party"
 script = SubResource( 13 )
-[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/Label" method="_on_Panel_base_color_changed"]
-[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/PanelContainer" method="_on_Panel_base_color_changed"]
 [connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/CenterContainer/Label" method="_on_Panel_base_color_changed"]
+[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/PanelContainer" method="_on_Panel_base_color_changed"]
+[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/Label" method="_on_Panel_base_color_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer/MarginContainer/LeftButton" to="." method="_on_LeftButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer2/MarginContainer/RightButton" to="." method="_on_RightButton_pressed"]

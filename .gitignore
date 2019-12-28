@@ -16,8 +16,8 @@
 *.ogv
 *.webm
 # spreadsheets
-.xlsm
-.xlsx
+*.xlsm
+*.xlsx
 
 !*.import
 

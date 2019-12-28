@@ -12,9 +12,9 @@ var is_clean := true setget set_is_clean
 var cleaning_time_left: float = CLEANING_TIME
 var current_recipe: Sprite = null setget set_current_recipe
 
-onready var dirt_sprite := $Sprite/DirtOverlay
-onready var pos_recipe := $Recipe
-onready var tween := $Tween
+onready var dirt_sprite: Sprite = $Sprite/DirtOverlay
+onready var pos_recipe: Position2D = $Recipe
+onready var tween: Tween = $Tween
 
 func _on_Tween_tween_completed(object, key) -> void:
 	
@@ -49,18 +49,22 @@ func set_current_recipe(value: Sprite) -> void:
 
 func start_cleaning() -> void:
 	
-	tween.interpolate_property(
-		dirt_sprite, "modulate",
-		Color(1, 1, 1, cleaning_time_left / CLEANING_TIME), 
-		Color.transparent, 
-		cleaning_time_left, 
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+	var catch: bool = (
+		tween.interpolate_property(
+			dirt_sprite, "modulate",
+			Color(1, 1, 1, cleaning_time_left / CLEANING_TIME), 
+			Color.transparent, 
+			cleaning_time_left, 
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		) and
+		tween.start()
 	)
-	tween.start()
+	assert(catch)
 
 func stop_cleaning(time_left: float) -> void:
+	var catch: bool = tween.stop(dirt_sprite, "modulate")
 	
-	tween.stop(dirt_sprite, "modulate")
+	assert(catch)
 	cleaning_time_left = time_left
 
 func _create_recipe(ingredient_name: String) -> bool:  # TODO -> Configurar para receber diferentes receitas

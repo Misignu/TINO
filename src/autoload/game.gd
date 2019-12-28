@@ -13,9 +13,9 @@ enum ingredients_ids {
 
 const devices = [-2, -1, 1, 2, 3]
 const ingredients = {
-	ingredients_ids.BREAD: preload("res://src/objects/areas/pickable_objects/ingredients/bread.tscn"),
-	ingredients_ids.MEAT: preload("res://src/objects/areas/pickable_objects/ingredients/meat.tscn"),
-	ingredients_ids.LETTUCE: preload("res://src/objects/areas/pickable_objects/ingredients/lettuce.tscn")
+	ingredients_ids.BREAD: "res://src/objects/areas/pickable_objects/ingredients/bread.tscn",
+	ingredients_ids.MEAT: "res://src/objects/areas/pickable_objects/ingredients/meat.tscn",
+	ingredients_ids.LETTUCE: "res://src/objects/areas/pickable_objects/ingredients/lettuce.tscn"
 }
 
 var coins: int = 50 setget set_coins
@@ -27,10 +27,12 @@ var players := [
 ] setget set_players
 
 func _ready() -> void:
+	var catch: int
 	
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	get_tree().get_root().set_transparent_background(true)
-	assert(Input.connect("joy_connection_changed", self, "_on_joy_connection_changed") == OK)
+	catch = Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	assert(catch == OK)
 
 func _input(event: InputEvent) -> void:
 	
@@ -47,8 +49,6 @@ func _input(event: InputEvent) -> void:
 
 # @signals
 func _on_joy_connection_changed(device_id, is_connected): # TODO -> Implementar atualização de Players devices
-	
-	print(device_id)
 	
 	if is_connected:
 		
@@ -95,7 +95,7 @@ func get_availlable_player_index() -> int:
 	return value
 
 # @gettets
-func get_igredient_data(ingredients_id: int) -> Ingredient:
+func get_igredient_data(ingredients_id: int) -> String:
 	return ingredients[ingredients_id]
 
 # @setters
@@ -117,10 +117,12 @@ func set_players(new_array: Array):
 	players = new_array
 
 func set_coins(value: int) -> void:
+	var catch: int
 	
 	if value <= 0:
-		
-		assert(get_tree().change_scene("res://src/ui/eyecatchers/game_over.tscn") == OK)
+
+		catch = get_tree().change_scene("res://src/ui/eyecatchers/game_over.tscn")
+		assert(catch == OK)
 	
 	emit_signal("coins_changed", value, value < coins)
 	coins = value

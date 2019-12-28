@@ -17,9 +17,9 @@ signal body_movement_stopped
 export(float, 0, 1000) var max_speed = 500
 export(float, 0, 1000) var acceleration = 100
 
-var motion: Vector2 = Vector2.ZERO
+var motion := Vector2.ZERO
 var _last_direction: Vector2 = motion
-var _stopped = true
+var _stopped := true
 
 func _move(axis: Vector2) -> void:
 	

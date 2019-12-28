@@ -24,7 +24,7 @@ func add_ingredient(ingredient: Ingredient) -> bool:
 	var current_frame = frame
 	
 	for ingredient_name in steps[frame_coords.x][frame_coords.y]:
-
+		
 		if ingredient_name in ingredient.name:
 			print()
 			frame = steps[frame_coords.x][frame_coords.y][ingredient_name]

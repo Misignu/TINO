@@ -1,5 +1,5 @@
 extends Area2D
-class_name PickableObject
+class_name PickableObject, "res://assets/sprites/hud/drag.svg"
 
 const PICK_PLACE_PATH = "res://src/objects/areas/pick_place.tscn"
 export var use_pick_place: bool = false

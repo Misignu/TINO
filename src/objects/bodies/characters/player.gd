@@ -58,11 +58,11 @@ export var frame_down: int = 1
 export var frame_left: int = 4
 export var frame_right: int = 7
 
-onready var sprite := $Sprite
-onready var ray_cast := $RayCast2D
-onready var pos_grabbed_object := $GrabbedObject
-onready var expressions := $Sprite/Expressions
-onready var animation_player := $AnimationPlayer
+onready var sprite: Sprite = $Sprite
+onready var ray_cast: RayCast2D = $RayCast2D
+onready var pos_grabbed_object: Position2D = $GrabbedObject
+onready var expressions: Sprite = $Sprite/Expressions
+onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _physics_process(_delta) -> void:
 	
@@ -261,6 +261,7 @@ func _tranfer_object(object: PickableObject, area: Area2D) -> bool:
 	return was_transfered
 
 func _fire_action(area: Area2D):
+	var catch: int
 	
 	if area.has_method("cut_ingridient"):
 		
@@ -273,7 +274,9 @@ func _fire_action(area: Area2D):
 		is_interacting = true
 	
 	if is_interacting:
-		assert(area.get_node("WorkTimer").connect("timeout", self, "_stop_interaction", [area.get_node("WorkTimer")]) == OK) # REFACTOR
+		
+		catch = area.get_node("WorkTimer").connect("timeout", self, "_stop_interaction", [area.get_node("WorkTimer")]) # REFACTOR
+		assert(catch == OK)
 
 func _stop_action(area: Area2D):
 	

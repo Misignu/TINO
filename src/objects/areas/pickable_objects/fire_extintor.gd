@@ -5,19 +5,21 @@ signal extintor_finished
 
 var input_index: int
 
-onready var animation_buffer := $GasRange/AnimationBuffer
-onready var gas_particles := $GasRange/Particles2D
-onready var gas_player := $GasRange/AnimationPlayer
+onready var animation_buffer: Timer = $GasRange/AnimationBuffer
+onready var gas_particles: Particles2D = $GasRange/Particles2D
+onready var gas_player: AnimationPlayer = $GasRange/AnimationPlayer
 
 func _on_GasRange_area_entered(area: Area2D) -> void:
+	
+	var catch: int
 	var fire: Particles2D = area.get_parent()
 	
 	if "FireParticles" in fire.name:
 		
-		assert(
-			connect("extintor_started", fire, "_on_FireExtintor_extintor_started") == OK and
-			connect("extintor_finished", fire, "_on_FireExtintor_extintor_finished") == OK
-		)
+		catch = connect("extintor_started", fire, "_on_FireExtintor_extintor_started")
+		assert(catch == OK)
+		catch = connect("extintor_finished", fire, "_on_FireExtintor_extintor_finished")
+		assert(catch == OK)
 		
 		if fire.is_firing and Input.is_action_pressed(str("player", input_index, "_secoundary_action")):
 			fire._on_FireExtintor_extintor_started()

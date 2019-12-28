@@ -1,4 +1,4 @@
-extends "res://objects/recipe.gd"
+extends "res://src/objects/recipe.gd"
 
 func _ready():
 	ingredients = [

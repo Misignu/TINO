@@ -11,10 +11,10 @@ var is_firing: bool setget set_is_firing
 var fire_intensity: float = 1.0
 
 onready var fire_max_scale: float = process_material.scale
-onready var fire_area := $Area2D
-onready var tween := $Tween
-onready var timer := $Timer
-onready var fire_bsfx := $FireBSFX2D
+onready var fire_area: Area2D = $Area2D
+onready var tween: Tween = $Tween
+onready var timer: Timer = $Timer
+onready var fire_bsfx: AudioStreamPlayer2D = $FireBSFX2D
 
 func _ready() -> void:
 	process_material = process_material.duplicate(true) # REFACTOR -> Optimazation
@@ -22,20 +22,27 @@ func _ready() -> void:
 # @signals
 func _on_FireExtintor_extintor_started() -> void: # REFACTOR -> Optimization
 	var duration: float = BANISH_FIRE_TIME * fire_intensity
+	var catch: bool
 	
-	tween.stop(self, "process_material:scale")
-	tween.interpolate_property(self, "fire_intensity", fire_intensity, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.interpolate_property(self, "process_material:scale", process_material.scale, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	catch = (
+		tween.stop(self, "process_material:scale") and
+		tween.interpolate_property(self, "fire_intensity", fire_intensity, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
+		tween.interpolate_property(self, "process_material:scale", process_material.scale, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
+		tween.start()
+	)
+	assert(catch)
 
 func _on_FireExtintor_extintor_finished() -> void: # REFACTOR -> Optimization
 	var duration: float = BANISH_FIRE_TIME * (1.0 - fire_intensity)
+	var catch: int
 	
-	tween.stop(self, "fire_intensity")
-	tween.stop(self, "process_material:scale")
-	tween.interpolate_property(self, "fire_intensity", fire_intensity, 1.0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.interpolate_property(self, "process_material:scale", process_material.scale, fire_max_scale, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-
+	catch = (
+		tween.stop(self, "fire_intensity") and
+		tween.stop(self, "process_material:scale") and
+		tween.interpolate_property(self, "fire_intensity", fire_intensity, 1.0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
+		tween.interpolate_property(self, "process_material:scale", process_material.scale, fire_max_scale, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	)
+	assert(catch)
 
 func _on_Area2D_area_entered(area: Area2D) -> void:
 	

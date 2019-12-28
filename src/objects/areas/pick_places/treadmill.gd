@@ -3,12 +3,13 @@ extends "res://src/objects/areas/pick_place.gd"
 signal recipe_delived
 signal plate_returned
 
-export(float, 60) var return_time: float = 10
 const BUFFER_REPLACEMENT_TIME = 5
+
+export(float, 60) var return_time: float = 10
 var cached_plates := Array()
 
-onready var tween := $Tween
-onready var deliver_sine_sfx := $DeliverSineSFX
+onready var tween: Tween = $Tween
+onready var deliver_sine_sfx: AudioStreamPlayer = $DeliverSineSFX
 
 func _on_Tween_tween_completed(object, key: String) -> void:
 	
@@ -58,7 +59,9 @@ func _buffer_replacement(object: PickableObject) -> void:
 
 func _create_and_run_timer():
 	var timer := Timer.new()
+	var catch: int
 	
 	add_child(timer)
-	assert(timer.connect("timeout", self, "_on_plate_return_Timer_timeout", [timer]) == OK)
+	catch = timer.connect("timeout", self, "_on_plate_return_Timer_timeout", [timer])
+	assert(catch == OK)
 	timer.start(return_time)

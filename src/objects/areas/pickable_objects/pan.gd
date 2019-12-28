@@ -22,11 +22,13 @@ func grab() -> PickableObject:
 
 func insert_ingredient(ingredient: Ingredient) -> bool:
 	var inserted: bool
+	var catch: int
 	
 	if $Recipe.get_child_count() == 0:
 		
 		$Recipe.add_child(ingredient)
-		assert(connect("buffer_finished", ingredient, "start_burning") == OK)
+		catch = connect("buffer_finished", ingredient, "start_burning")
+		assert(catch == OK)
 		ingredient._change_ingridient_sprite("fried_frames", 0)
 		inserted = true
 	

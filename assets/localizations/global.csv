@@ -1,7 +1,12 @@
 ﻿id,en,pt_BR,es
 GAME_NAME,This is not Overcooked,Isto não é overcooked,Esto no és overcooked
-JOIN_THE_PARTY,[center]Press [color=#0bca6a]START[/color][/center]\n[center]to join[/center]\n[center]the party[/center],[center]Pressione\n[center][color=#0bca6a]START [/color][/center]para se[/center]\n[center]juntar a equipe[/center],[center]Pulse [color=#0bca6a]START[/color][/center]\n[center]para unirse[/center]\n[center]al equipo[/center]
-BOOST,[center]Hold [color=#{color}]ACTION[/color][/center]\n[center]to boost[/center]\n[center]the timer[/center],[center]Segure\n[color=#{color}]ACTION[/color][/center]\n[center]para acelerar[/center]\n[center]o contador[/center],[center]Pressione\n[color=#{color}]ACTION[/color][/center]\n[center] para acelearar[/center]\n[center]o contador[/center]
+PRESS,Press,Pressione,Pulse
+JOIN,to join,para se unir,para unirse
+PARTY,the party,a equipe,al equipo
+BOOST_,[center]Hold [color=#{color}]ACTION[/color][/center]\n[center]to boost[/center]\n[center]the timer[/center],[center]Segure\n[color=#{color}]ACTION[/color][/center]\n[center]para acelerar[/center]\n[center]o contador[/center],[center]Pressione\n[color=#{color}]ACTION[/color][/center]\n[center] para acelearar[/center]\n[center]o contador[/center]
+HOLD,Hold,Segure,Pressione
+BOOST,to boost,para acelerar,para acelearar
+TIMER,the timer,o contador,el contador
 VICTORY,Victory!,Vitória!,Victoria!
 SAD_END,Went bankrupt!,Seu restaurante\nFaliu!,¡Tu restaurante\nFaliu!
 CHALENGED,Will you give up?,Vai disistir?,¿Vas a rendirte?

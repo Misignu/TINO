@@ -3,7 +3,6 @@
 [ext_resource path="res://src/objects/fire_particles.gd" type="Script" id=1]
 [ext_resource path="res://assets/sounds/fxs/fire.wav" type="AudioStream" id=2]
 
-
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.305825, 0.723301, 1 )
 colors = PoolColorArray( 1, 0.976471, 0.784314, 0.196078, 1, 0.351563, 0, 0.588235, 1, 0.776764, 0.183594, 0.392157, 0.247059, 0.27451, 0.27451, 0.196078 )

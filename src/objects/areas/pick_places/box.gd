@@ -2,7 +2,7 @@ tool
 extends "res://src/objects/areas/pick_place.gd"
 
 export(Game.ingredients_ids) var igridient_id: int = 0 setget set_ingredient_id
-var ingredient: Ingredient
+var ingredient: Resource
 
 func _ready() -> void:
 	update_ingredient_data()
@@ -25,7 +25,7 @@ func remove_object() -> PickableObject:
 func update_ingredient_data() -> void:
 	var new_ingredient: Ingredient
 	
-	ingredient = Game.get_igredient_data(igridient_id)
+	ingredient = load(Game.get_igredient_data(igridient_id))
 	new_ingredient = ingredient.instance()
 	$IngredientSprite.texture = new_ingredient.ingredient_label
 	update()

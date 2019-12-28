@@ -50,6 +50,7 @@ class Video extends Audio:
 	General Singleton Class Deals with Video
 	"""
 	signal fullscreen_mode_changed
+	signal language_changed
 	
 	onready var language := TranslationServer.get_locale() setget set_language, get_language
 	
@@ -57,6 +58,7 @@ class Video extends Audio:
 		
 		TranslationServer.set_locale(value)
 		language = value
+		emit_signal("language_changed", value)
 	
 	func set_transparency_mode(value := false) -> void:
 		

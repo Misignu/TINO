@@ -1,15 +1,19 @@
 extends ColorRect
 
-onready var yep_button := $CenterContainer/TristeFim/Desafiado/Options/Yep
+onready var yep_button: ToolButton = $CenterContainer/TristeFim/Desafiado/Options/Yep
 
 func _on_AnimationPlayer_animation_finished(_animation) -> void:
 	yep_button.grab_focus()
 
 func _on_Yep_pressed() -> void:
-	assert(get_tree().change_scene("res://src/ui/eyecatchers/splash_screen.tscn") == OK)
+	var catch: int = get_tree().change_scene("res://src/ui/eyecatchers/splash_screen.tscn")
+
+	assert(catch == OK)
 
 func _on_Nope_pressed() -> void:
-	assert(get_tree().change_scene("res://src/scenarios/level_x.tscn") == OK)
+	var catch: int = get_tree().change_scene("res://src/scenarios/level_x.tscn")
+	
+	assert(catch == OK)
 
 func _on_Yep_mouse_entered() -> void:
 	yep_button.grab_focus()

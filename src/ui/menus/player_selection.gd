@@ -7,9 +7,10 @@ const NEXT_SCENE = "res://src/scenarios/level_x.tscn"
 const ANIM_NAME = "clock"
 
 var time: int setget set_time
-onready var tween := $Tween
-onready var timer_label := $MarginContainer/VBoxContainer/Header/TimerPanel/HBoxContainer/Label
-onready var clock_player := $MarginContainer/VBoxContainer/Header/TimerPanel/HBoxContainer/ClockTimer/AnimationPlayer
+
+onready var tween: Tween = $Tween
+onready var timer_label: Label = $MarginContainer/VBoxContainer/Header/TimerPanel/HBoxContainer/Label
+onready var clock_player: AnimationPlayer = $MarginContainer/VBoxContainer/Header/TimerPanel/HBoxContainer/ClockTimer/AnimationPlayer
 
 func _ready() -> void:
 	
@@ -24,8 +25,13 @@ func _input(event) -> void:
 			verify_inputs(event, device)
 
 # @signals
-func _on_Tween_tween_completed(_object, _key) -> void:
-	assert(get_tree().change_scene(NEXT_SCENE) == OK)
+func _on_Tween_tween_completed(object, key) -> void:
+	var catch: int
+	
+	if object == self and key == ":time":
+		catch = get_tree().change_scene(NEXT_SCENE)
+	
+	assert(catch == OK)
 
 func _on_Panel_action_key_pressed() -> void:
 	
@@ -96,15 +102,19 @@ func update_slots() -> void:
 		counter += 1
 
 func _start_timer() -> void:
+	var catch: bool = (
+		tween.stop(self, "time") and
+		tween.interpolate_property(self, "time", MAX_TIME, 0, MAX_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
+		tween.start()
+	)
 	
-	tween.stop(self, "time")
-	tween.interpolate_property(self, "time", MAX_TIME, 0, MAX_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	assert(catch)
 	clock_player.play(ANIM_NAME)
 
 func _stop_timer() -> void:
+	var catch: bool = tween.stop(self, "time")
 	
-	tween.stop(self, "time")
+	assert(catch)
 	set_time(MAX_TIME)
 	clock_player.stop(false)
 
