@@ -9,7 +9,7 @@ func _on_BurnBufferTimer_timeout() -> void:
 	
 	is_buffering = false
 	
-	if $Recipe.get_child_count() == 1: # REFACTOR -> Impedir que timer continue rodando se não houver uma receita
+	if $Recipe.get_child_count() == 1:
 		$Recipe.get_child(0).start_burning()
 
 # @override
@@ -53,11 +53,10 @@ func transfer_ingredient(area: Area2D) -> bool:
 	return was_transfered
 
 func prepare_ingridient(timer: Timer) -> bool:
+
 	var can_prepare: bool
 	var recipe = $Recipe.get_child(0)
 	
-#	if $Recipe.get_child_count() == 1: # TODO -> Verificar a segurança/ necessidade dessa verificação
-		
 	if recipe.preparation_state == ingredient_target_state:
 		
 		recipe.prepare(recipe.ACTIONS[ingredient_target_state], timer)

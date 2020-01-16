@@ -3,6 +3,7 @@ extends Sprite
 @notes
 	ingredients é um array que localiza o frame da receita conforme as coordenadas do frame atual e o nome do ingredient sendo inserido
 """
+
 export var price: int = 100 setget, get_price
 export var ingredients: PoolStringArray = [
 	"IngredientName"

@@ -16,11 +16,14 @@ onready var tween: Tween = $Tween
 onready var timer: Timer = $Timer
 onready var fire_bsfx: AudioStreamPlayer2D = $FireBSFX2D
 
+
 func _ready() -> void:
-	process_material = process_material.duplicate(true) # REFACTOR -> Optimazation
+	process_material = process_material.duplicate(true)
+
 
 # @signals
-func _on_FireExtintor_extintor_started() -> void: # REFACTOR -> Optimization
+func _on_FireExtintor_extintor_started() -> void:
+	
 	var duration: float = BANISH_FIRE_TIME * fire_intensity
 	var catch: bool
 	
@@ -32,7 +35,9 @@ func _on_FireExtintor_extintor_started() -> void: # REFACTOR -> Optimization
 	)
 	assert(catch)
 
-func _on_FireExtintor_extintor_finished() -> void: # REFACTOR -> Optimization
+
+func _on_FireExtintor_extintor_finished() -> void:
+	
 	var duration: float = BANISH_FIRE_TIME * (1.0 - fire_intensity)
 	var catch: int
 	
@@ -44,18 +49,22 @@ func _on_FireExtintor_extintor_finished() -> void: # REFACTOR -> Optimization
 	)
 	assert(catch)
 
+
 func _on_Area2D_area_entered(area: Area2D) -> void:
 	
 	if area.get_parent().has_method("set_is_firing"):
 		area.get_parent().set_is_firing(true)
+
 
 func _on_Tween_tween_completed(object, key: String) -> void:
 	
 	if object == self and key == ":fire_intensity" and fire_intensity == 0:
 		set_is_firing(false)
 
+
 func _on_Timer_timeout() -> void:
 	fire_area.monitoring = true
+
 
 # @setters
 func set_is_firing(value := true) -> void:

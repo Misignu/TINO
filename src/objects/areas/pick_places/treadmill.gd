@@ -11,14 +11,15 @@ var cached_plates := Array()
 onready var tween: Tween = $Tween
 onready var deliver_sine_sfx: AudioStreamPlayer = $DeliverSineSFX
 
+
 func _on_Tween_tween_completed(object, key: String) -> void:
 	
 	if object is PickableObject and key == "modulate":
 		
 		_buffer_replacement(.remove_object())
-#		plate.current_recipe = null # WATCH -> Verificar a necessidade dessa linha
 		cached_plates.append(object)
 		_create_and_run_timer()
+
 
 func _on_plate_return_Timer_timeout(timer: Timer) -> void:
 	
@@ -29,7 +30,7 @@ func _on_plate_return_Timer_timeout(timer: Timer) -> void:
 
 
 # @override
-func insert_object(object: PickableObject) -> bool: # REFACTOR -> Código gambiarroso
+func insert_object(object: PickableObject) -> bool:
 	var can_insert = false
 	
 	if "Plate" in object.name:
@@ -42,22 +43,32 @@ func insert_object(object: PickableObject) -> bool: # REFACTOR -> Código gambia
 	
 	return can_insert
 
+
 # @main
 func _delivery_animation(plate: PickableObject):
 	
-	tween.interpolate_property(plate, "modulate", plate.modulate, Color.transparent, 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT) # WATCH -> Verificar a possibilidade de interpolar somente o alpha
+	var catch := (
+		tween.interpolate_property(plate, "modulate", plate.modulate, Color.transparent, 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT) and
+		tween.start()
+	)
+	
+	assert(catch)
 	deliver_sine_sfx.play()
-	tween.start()
 	emit_signal("recipe_delived", plate.current_recipe)
 
+
 func _buffer_replacement(object: PickableObject) -> void:
-	var buffer: = Timer.new()
 	
-	buffer.connect("timeout", self, "_on_buffer_timeout", [object, buffer])
+	var buffer: = Timer.new()
+	var catch: int = buffer.connect("timeout", self, "_on_buffer_timeout", [object, buffer])
+	
+	assert(catch == OK)
 	add_child(buffer)
 	buffer.start(BUFFER_REPLACEMENT_TIME)
 
+
 func _create_and_run_timer():
+
 	var timer := Timer.new()
 	var catch: int
 	

@@ -24,7 +24,7 @@ func _on_ConfirmationDialog_visibility_changed():
 	if is_visible:
 		
 		$AnimationPlayer.play(ANIM_NAME)
-		confirmation_dialog.get_child(2).get_child(3).grab_focus() # REFACTOR -> Verificar se não existe um comando para isso
+		confirmation_dialog.get_cancel().grab_focus()
 		
 	else:
 		$AnimationPlayer.play_backwards(ANIM_NAME)

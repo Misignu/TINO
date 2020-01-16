@@ -1,4 +1,4 @@
-extends "res://src/objects/areas/pickable_objects/pan.gd"
+extends "res://src/objects/areas/pickable_objects/kitchenwares/pan.gd"
 
 func _ready():
 	ingredient_target_state = Ingredient.FRIABLE

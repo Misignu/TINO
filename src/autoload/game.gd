@@ -30,7 +30,6 @@ func _ready() -> void:
 	var catch: int
 	
 	pause_mode = Node.PAUSE_MODE_PROCESS
-	get_tree().get_root().set_transparent_background(true)
 	catch = Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 	assert(catch == OK)
 
@@ -48,7 +47,7 @@ func _input(event: InputEvent) -> void:
 			increase_volume()
 
 # @signals
-func _on_joy_connection_changed(device_id, is_connected): # TODO -> Implementar atualização de Players devices
+func _on_joy_connection_changed(device_id, is_connected): # Optional TODO -> Implementar atualização de Players devices
 	
 	if is_connected:
 		

@@ -50,14 +50,19 @@ func drop(pos: Vector2) -> void:
 	.drop(pos)
 
 # @main
-func start() -> void: # TODO -> Optimize to Collision
+func start() -> void:
 	
+	$GasRange.monitoring = true
+	$GasRange.monitorable = true
 	gas_particles.emitting = true
 	gas_player.play("gas_jet")
 	animation_buffer.stop()
 	emit_signal("extintor_started")
 
 func stop() -> void:
+	
+	$GasRange.monitoring = false
+	$GasRange.monitorable = false
 	
 	if is_inside_tree():
 		animation_buffer.start()

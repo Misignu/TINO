@@ -1,8 +1,6 @@
 extends "res://src/objects/areas/pick_places/work_station.gd"
 """
 Stove é uma WorkStation que permite preparar ingredientes de uma pan.
-
-# WATCH -> Refazendo código
 """
 const ANIMATIONS = {
 	alert = "fire_alert"
@@ -31,6 +29,7 @@ func _on_Ingredient_burning_started(is_firing: bool) -> void:
 		set_is_burning(true)
 		
 	else:
+		$FireAlert/Tween.stop($FireAlert, ":modulate")
 		alert_player.play(ANIMATIONS.alert)
 	
 	texture_rect.visible = not is_firing
@@ -120,7 +119,7 @@ func _start_cooking() -> void:
 	
 	if current_object.prepare_ingridient(work_timer):
 		
-		_start_working( # WATCH
+		_start_working(
 			current_object.get_recipe().fry_time - current_object.get_recipe().preparation_timer_wait_time,
 			current_object.get_recipe().fry_time,
 			current_object.get_recipe().preparation_timer_wait_time
@@ -136,7 +135,8 @@ func set_is_fire_danger(value: bool) -> void:
 	if not value:
 		
 		alert_player.stop()
-		texture_rect.visible = false # TODO -> Tween it! :D
+		$FireAlert/Tween.interpolate_property($FireAlert, "modulate", $FireAlert.modulate, Color.transparent, $FireAlert.modulate.a * 2, Tween.TRANS_SINE, Tween.EASE_OUT)
+		$FireAlert/Tween.start()
 		pos_current_object.get_child(0).stop_burning()
 	
 	is_fire_danger = value

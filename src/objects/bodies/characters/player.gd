@@ -3,45 +3,8 @@ extends "res://src/objects/bodies/top_down_body.gd"
 Corpo top_down que recebe inputs para movimentar-se e interagir com outros objetos.
 
 @notes
-	# REFACTOR -> Substituir o modo de verificação de objeto por nomes por tipo duck_type ou groups
-	
-	shift_visibility:
-	-> Altera a visibilidade de player, desativando suas colisões
-	
-	_move()
-	-> Movimenta o corpo e altera a animação.
-	
-	_get_input_axis()
-	-> Captura um input e retorna uma direção de movimento.
-	
-	_interact()
-	-> Captura um input e tenta alguma interação com o colisor.
-	
-	_try_drop()
-	-> Verifica se área colisora pode receber um objeto, se ela não existir o objeto será despejado na posição mais próxima
-	
-	_walk_animation_play()
-	-> Altera a animação conforme a direção passada.
-	
-	_grab()
-	-> Adiciona um objeto do colisor, ou o próprio colisor como o current_object.
-	
-	_grab_active()
-	-> Adiciona um objeto do colisor, ou o próprio colisor como o current_active.
-	
-	_drop_active()
-	-> Despeja o current_active na área/ posição mais próxima.
-	
-	_drop()
-	-> Despeja o current_object na área/ posição mais próxima.
-	
-	_fire_action()
-	-> Inicia uma interação com o colisor.
-	
-	_stop_action()
-	-> Interrompe uma interação com o colisor.
+	O sistema de verificação de objetos via nome poderá ser substituído pela verificação de groups.
 """
-
 export(int, -1, 4) var controller_index = 1 setget set_controller_index # Um setget pode ser usado para alterar o controle in-game após o objeto ter sido instanciado
 
 var is_interacting := false
@@ -64,6 +27,7 @@ onready var pos_grabbed_object: Position2D = $GrabbedObject
 onready var expressions: Sprite = $Sprite/Expressions
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+
 func _physics_process(_delta) -> void:
 	
 	if not is_interacting:
@@ -80,10 +44,11 @@ func _physics_process(_delta) -> void:
 		if "FireExtintor" in pos_grabbed_object.get_child(0).name:
 			
 			if Input.is_action_just_pressed(secoundary_action):
-				pos_grabbed_object.get_child(0).start() # WATCH
+				pos_grabbed_object.get_child(0).start()
 				
 			elif Input.is_action_just_released(secoundary_action):
-				pos_grabbed_object.get_child(0).stop() # WATCH
+				pos_grabbed_object.get_child(0).stop()
+
 
 # @signals
 func _on_Player_direction_changed(direction: Vector2) -> void:
@@ -126,7 +91,8 @@ func _on_Player_direction_changed(direction: Vector2) -> void:
 		_:
 			expressions.visible = false
 	
-	pos_grabbed_object.position = direction * 10 # WATCH -> Testando nova feature
+	pos_grabbed_object.position = direction * 10
+
 
 func _on_Player_body_movement_stopped() -> void:
 	animation_player.play("idle")
@@ -146,20 +112,32 @@ func _on_Player_body_movement_stopped() -> void:
 		Vector2.RIGHT:
 			sprite.frame = frame_right
 
+
 # @override
 func shift_visibility(show := true) -> void:
+	"""
+	Altera a visibilidade de player, desativando suas colisões
+	"""
 	
 	visible = show
 	$CollisionShape2D.disabled = not show
 	set_process_input(show)
 
+
 func _move(axis: Vector2) -> void:
+	"""
+	Movimenta o corpo e altera a animação.
+	"""
 	
 	._move(axis)
 	_walk_animation_play(axis)
 
+
 # @main
 func _get_input_axis() -> Vector2:
+	"""
+	Captura um input e retorna uma direção de movimento.
+	"""
 	var axis = Vector2.ZERO
 	
 #	axis.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left")) # Clever way pra conver os inputs do jogador no movimento do personagem
@@ -171,7 +149,9 @@ func _get_input_axis() -> Vector2:
 	return axis.normalized()
 
 func _walk_animation_play(direction: Vector2) -> void:
-	
+	"""
+	Altera a animação conforme a direção passada.
+	"""
 	match direction:
 		
 		Vector2.UP:
@@ -188,7 +168,9 @@ func _walk_animation_play(direction: Vector2) -> void:
 
 
 func _interact(area: Area2D) -> void:
-	
+	"""
+	Captura um input e tenta alguma interação com o colisor.
+	"""
 	if pos_grabbed_object.get_child_count() == 0:
 		
 		if Input.is_action_just_pressed(primary_action):
@@ -205,7 +187,11 @@ func _interact(area: Area2D) -> void:
 		if Input.is_action_just_pressed(primary_action):
 			_insert_object(area)
 
+
 func _grab_object(area: Area2D) -> void:
+	"""
+	Adiciona um objeto da área colisora, ou o própria área como o current_object.
+	"""
 	var object: PickableObject
 	
 	if area.has_method("remove_object"):
@@ -220,6 +206,7 @@ func _grab_object(area: Area2D) -> void:
 			object.input_index = controller_index
 		
 		pos_grabbed_object.add_child(object)
+
 
 func _insert_object(area: Area2D) -> void:
 	
@@ -243,12 +230,17 @@ func _insert_object(area: Area2D) -> void:
 			if not area.call("insert_object", object):
 				pos_grabbed_object.add_child(object)
 
+
 func _drop_object() -> void:
+	"""
+	Despeja o objeto atual na área/ posição mais próxima.
+	"""
 	var object: PickableObject = pos_grabbed_object.get_child(0)
 	
 	pos_grabbed_object.remove_child(object)
 	object.origin = get_parent().get_parent()
 	object.drop(global_position + (_last_direction * 10))
+
 
 func _tranfer_object(object: PickableObject, area: Area2D) -> bool:
 	var was_transfered: bool
@@ -260,7 +252,11 @@ func _tranfer_object(object: PickableObject, area: Area2D) -> bool:
 	
 	return was_transfered
 
+
 func _fire_action(area: Area2D):
+	"""
+	Inicia uma interação com o colisor.
+	"""
 	var catch: int
 	
 	if area.has_method("cut_ingridient"):
@@ -275,11 +271,14 @@ func _fire_action(area: Area2D):
 	
 	if is_interacting:
 		
-		catch = area.get_node("WorkTimer").connect("timeout", self, "_stop_interaction", [area.get_node("WorkTimer")]) # REFACTOR
+		catch = area.get_node("WorkTimer").connect("timeout", self, "_stop_interaction", [area.get_node("WorkTimer")])
 		assert(catch == OK)
 
+
 func _stop_action(area: Area2D):
-	
+	"""
+	Interrompe uma interação com o colisor.
+	"""
 	if area.has_method("stop_cutting"):
 		area.stop_cutting()
 	
@@ -288,10 +287,12 @@ func _stop_action(area: Area2D):
 	
 	_stop_interaction(area.get_node("WorkTimer"))
 
+
 func _stop_interaction(timer: Timer):
 
 	is_interacting = false
-	timer.disconnect("timeout", self, "_stop_interaction")
+	timer.call_deferred("disconnect", "timeout", self, "_stop_interaction")
+
 
 # @setters
 func set_controller_index(value: int) -> void:
@@ -304,4 +305,3 @@ func set_controller_index(value: int) -> void:
 	secoundary_action = str("player", value, "_secoundary_action")
 	
 	controller_index = value
-

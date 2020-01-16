@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/sounds/musics/Overcooked music - Levels 1-1 to 2-4.ogg" type="AudioStream" id=9]
 [ext_resource path="res://src/objects/areas/pick_places/delivery_points/trash.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/objects/areas/pick_places/return_station.tscn" type="PackedScene" id=11]
-[ext_resource path="res://src/objects/areas/pickable_objects/plate.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/objects/areas/pickable_objects/kitchenwares/plate.tscn" type="PackedScene" id=12]
 [ext_resource path="res://src/objects/areas/pickable_objects/fire_extintor.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/objects/areas/pick_places/delivery_points/treadmill.tscn" type="PackedScene" id=14]
 [ext_resource path="res://src/objects/areas/pick_places/work_stations/sink.tscn" type="PackedScene" id=15]
@@ -218,11 +218,11 @@ __meta__ = {
 
 [node name="Stove1" parent="Scene/SceneObjects/Stoves" instance=ExtResource( 4 )]
 position = Vector2( 72, 24 )
-pan_path = "res://src/objects/areas/pickable_objects/pans/frying_pan.tscn"
+pan_path = "res://src/objects/areas/pickable_objects/kitchenwares/pans/frying_pan.tscn"
 
 [node name="Stove2" parent="Scene/SceneObjects/Stoves" instance=ExtResource( 4 )]
 position = Vector2( 136, 24 )
-pan_path = "res://src/objects/areas/pickable_objects/pans/frying_pan.tscn"
+pan_path = "res://src/objects/areas/pickable_objects/kitchenwares/pans/frying_pan.tscn"
 
 [node name="Plates" type="Node2D" parent="Scene/SceneObjects"]
 __meta__ = {
@@ -231,14 +231,23 @@ __meta__ = {
 
 [node name="Plate1" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 167, 72 )
+z_index = 1
+monitoring = false
+collision_layer = 2
 collision_mask = 2
 
 [node name="Plate2" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 103, 72 )
+z_index = 1
+monitoring = false
+collision_layer = 2
 collision_mask = 2
 
 [node name="Plate3" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 39, 72 )
+z_index = 1
+monitoring = false
+collision_layer = 2
 collision_mask = 2
 
 [node name="FireExtintor" parent="Scene/SceneObjects" instance=ExtResource( 13 )]

@@ -15,8 +15,8 @@ func remove_ingridient() -> PickableObject:
 	
 	return ingredient
 
-func get_recipe() -> PickableObject:
-	var recipe: PickableObject
+func get_recipe() -> Node2D:
+	var recipe: Node2D
 	
 	if $Recipe.get_child_count() > 0:
 		recipe = $Recipe.get_child(0)

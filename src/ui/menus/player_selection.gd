@@ -70,7 +70,7 @@ func _shift_player_selection(index: int) -> void:
 	
 	if not was_enabled:
 		
-		Game.players[player_slot].device = device_index # REFACTOR
+		Game.players[player_slot].device = device_index
 		add_slot(player_slot, device_index)
 	
 	_start_timer()

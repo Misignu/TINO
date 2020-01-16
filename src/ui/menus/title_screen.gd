@@ -13,7 +13,7 @@ func _on_NewGame_pressed():
 	
 	$MainMenu/Transition.play(ANIM)
 	$Audio/Music.stop()
-	OS.clipboard = "Obrigado por jogar!  " # WATCH -> HACKER DEMAIS
+	OS.clipboard = "Obrigado por jogar! 😁 #Ludart" # HACKER DEMAIS
 
 func _on_Continue_pressed():
 	
@@ -33,7 +33,5 @@ func _on_Transition_animation_finished(anim_name: String):
 	
 	if anim_name == ANIM:
 		
-#		Game.set_transparency_mode() # WATCH
-		$VideoPlayer.stop()
 		catch = get_tree().change_scene(NEXT_SCENE)
 		assert(catch == OK)

@@ -27,9 +27,6 @@ func insert_object(_object: PickableObject) -> bool:
 # @main
 func _cache_object(object: PickableObject) -> void:
 	
-	object.position = Vector2.ZERO # WATCH -> Verificar a necessidade dessa linha
-	object.modulate = Color.white # WATCH -> Substituir por trocar visibilidade
-	
 	if not .insert_object(object):
 		cached_objects.append(object)
 

@@ -12,6 +12,11 @@ func _on_Tween_tween_completed(object, key: String) -> void:
 		object.is_clean = false
 
 # @override
+func _on_buffer_timeout(object: PickableObject, buffer: Timer) -> void:
+	
+	object.modulate = Color.white
+	._on_buffer_timeout(object, buffer)
+
 func insert_object(object: PickableObject) -> bool:
 	var was_inserted: bool
 	
@@ -31,7 +36,7 @@ func remove_object():
 # @main
 func _delivery_animation(plate: PickableObject) -> void:
 	
-	$Tween.interpolate_property(plate, "modulate", plate.modulate, Color.transparent, 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT) # WATCH -> Verificar a possibilidade de interpolar apenas a propriedade alpha de modulate
+	$Tween.interpolate_property(plate, "modulate", plate.modulate, Color.transparent, 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	$Tween.start()
 	$DeliverSineSFX.play()
 	emit_signal("recipe_delived", plate.current_recipe)

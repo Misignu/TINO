@@ -60,12 +60,6 @@ class Video extends Audio:
 		language = value
 		emit_signal("language_changed", value)
 	
-	func set_transparency_mode(value := false) -> void:
-		
-		get_tree().get_root().set_transparent_background(false)
-		OS.window_per_pixel_transparency_enabled = value
-		OS.window_borderless = value
-	
 	func set_fullscreen(mode: bool = !OS.window_fullscreen) -> void:
 		
 		OS.window_fullscreen = mode

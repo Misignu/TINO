@@ -43,6 +43,7 @@ onready var character_texture_rect: TextureRect = $MarginContainer/VBoxContainer
 onready var button_right: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer/MarginContainer/LeftButton
 onready var button_left: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer2/MarginContainer/RightButton
 
+
 func _ready() -> void:
 	
 	set_process_input(false)
@@ -50,6 +51,7 @@ func _ready() -> void:
 	
 	if Engine.is_editor_hint():
 		set_base_color(base_color)
+
 
 func _input(event: InputEvent) -> void:
 	
@@ -70,12 +72,15 @@ func _input(event: InputEvent) -> void:
 		Game.players[get_index()].id = -1
 		emit_signal(\"player_input_desattached\")
 
+
 # @signals
 func _on_LeftButton_pressed():
 	select_availlable_character(false)
 
+
 func _on_RightButton_pressed():
 	select_availlable_character()
+
 
 # @main
 func select_availlable_character(use_next: bool = true):
@@ -91,11 +96,13 @@ func select_availlable_character(use_next: bool = true):
 	Game.players[get_index()].character = available_characters[id].atlas
 	Game.players[get_index()].id = id
 
+
 func atach_player_input(index: int, enable: bool):
 	
 	player_input_index = index
 	set_process_input(enable)
 	set_is_enabled(enable)
+
 
 func set_character(id: int):
 	
@@ -104,13 +111,14 @@ func set_character(id: int):
 		set_base_color(base_colors[id])
 		$MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/MarginContainer/TextureRect.texture = available_characters[id]
 
+
 func _get_availlable_character_id(base: int, use_next: bool) -> int:
 	
 	var id: int = -1
 	var is_availlable: bool
 	var counter: int = base
 	
-	while id == -1: # REFACTOR
+	while id == -1:
 		
 		is_availlable = true
 		counter += (1 if use_next else -1)
@@ -123,6 +131,7 @@ func _get_availlable_character_id(base: int, use_next: bool) -> int:
 			counter = 0
 		
 		if counter == base:
+			
 			push_error(\"The availlable_characters number isn't enough to fullfill the current number of players'\")
 			break
 		
@@ -132,13 +141,16 @@ func _get_availlable_character_id(base: int, use_next: bool) -> int:
 				is_availlable = false
 		
 		if is_availlable:
+			
 			id = counter
 			break
 	
 	return id
 
+
 static func _build_panel_message(initial: String, middle: String, end: String, key: String = \"START\", emphasis_color: String = \"0bca6a\") -> String:
 	return \"[center]{0} [color=#{color}]{key}[/color][/center]\\n[center]{1}[/center]\\n[center]{2}[/center]\".format([initial, middle, end]).format({\"key\": key, \"color\": emphasis_color})
+
 
 # @setters
 func set_is_enabled(value: bool) -> void:
@@ -153,6 +165,7 @@ func set_is_enabled(value: bool) -> void:
 		button_left.visible = value
 		
 		is_enabled = value
+
 
 func set_base_color(value: Color):
 	emit_signal(\"base_color_changed\", value)

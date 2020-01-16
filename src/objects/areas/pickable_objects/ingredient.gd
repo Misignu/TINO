@@ -28,7 +28,7 @@ enum {
 const ACTIONS = {CUTTABLE: "cut", FRIABLE: "fry"}
 const CUT_TIME = 3.0
 
-export(int, FLAGS, "cuttable", "friable", "cookable") var preparation_type # TODO optional -> Implementar cooking. Como esse é um protótipo não há necessidade
+export(int, FLAGS, "cuttable", "friable", "cookable") var preparation_type # Implementar cooking. Como esse é um protótipo não há necessidade
 export(float, 1.0, 60.0, .5) var preparation_time: float = 2.0
 
 export var ingredient_label: Texture setget set_ingredient_label
@@ -101,7 +101,7 @@ func _change_ingridient_sprite(type: String, framing: int = 1) -> void:
 func _on_BurnTimer_timeout():
 	
 	print("Fire started")
-	preparation_state = -1 # WATCH -> Adicionar sprite queimado
+	preparation_state = -1 # Optional TODO -> Adicionar sprite queimado
 	$Sprite.frame = 2
 	emit_signal("burning_started", true)
 

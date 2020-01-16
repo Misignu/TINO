@@ -69,11 +69,11 @@ __meta__ = {
 }
 
 [node name="LudartLogo" type="TextureRect" parent="."]
-margin_left = 235.714
-margin_top = -607.143
-margin_right = 875.715
-margin_bottom = 32.859
-rect_rotation = -1.37931
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 200.0
+margin_top = -1000.0
+margin_right = 840.001
+margin_bottom = -359.998
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -107,6 +107,8 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "show"
 anims/show = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="TitleScreen"]
