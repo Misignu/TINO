@@ -12,7 +12,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/amount = 0.0856124
+shader_param/amount = 0.0
 
 [sub_resource type="Animation" id=3]
 resource_name = "blur_in"
@@ -25,56 +25,46 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.01, 0.3 ),
+"times": PoolRealArray( 0.03, 0.3 ),
 "transitions": PoolRealArray( -2, 1 ),
 "update": 0,
 "values": [ 0.0, 1.0 ]
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer/BlurPanel")
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/ColorRect:color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.01 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "hide"
-}, {
-"args": [  ],
-"method": "show"
-} ]
+"times": PoolRealArray( 0.03, 0.3 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Color( 0.219608, 0, 0.482353, 0 ), Color( 0.164706, 0, 0.360784, 0.392157 ) ]
 }
-tracks/2/type = "method"
-tracks/2/path = NodePath("CanvasLayer/ColorRect")
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/BlurPanel:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.01 ),
+"times": PoolRealArray( 0, 0.03 ),
 "transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "hide"
-}, {
-"args": [  ],
-"method": "show"
-} ]
+"update": 1,
+"values": [ false, true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/3/path = NodePath("CanvasLayer/ColorRect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.01, 0.3 ),
-"transitions": PoolRealArray( -2, 1 ),
-"update": 0,
-"values": [ Color( 0.219608, 0, 0.482353, 0 ), Color( 0.164706, 0, 0.360784, 0.392157 ) ]
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [node name="PauseBreak" type="Control"]
@@ -104,7 +94,7 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.214814, 0, 0.471824, 0.0335735 )
+color = Color( 0.219608, 0, 0.482353, 0 )
 __meta__ = {
 "_edit_use_anchors_": false,
 "_editor_description_": ""

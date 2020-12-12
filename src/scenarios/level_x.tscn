@@ -231,23 +231,14 @@ __meta__ = {
 
 [node name="Plate1" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 167, 72 )
-z_index = 1
-monitoring = false
-collision_layer = 2
 collision_mask = 2
 
 [node name="Plate2" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 103, 72 )
-z_index = 1
-monitoring = false
-collision_layer = 2
 collision_mask = 2
 
 [node name="Plate3" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
 position = Vector2( 39, 72 )
-z_index = 1
-monitoring = false
-collision_layer = 2
 collision_mask = 2
 
 [node name="FireExtintor" parent="Scene/SceneObjects" instance=ExtResource( 13 )]

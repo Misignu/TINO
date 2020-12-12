@@ -5,12 +5,13 @@ signal buffer_finished
 var is_buffering: bool
 var ingredient_target_state: int
 
+
 func _on_BurnBufferTimer_timeout() -> void:
-	
 	is_buffering = false
 	
 	if $Recipe.get_child_count() == 1:
 		$Recipe.get_child(0).start_burning()
+
 
 # @override
 func grab() -> PickableObject:
@@ -20,7 +21,9 @@ func grab() -> PickableObject:
 	
 	return .grab()
 
+
 func insert_ingredient(ingredient: Ingredient) -> bool:
+	
 	var inserted: bool
 	var catch: int
 	
@@ -33,6 +36,7 @@ func insert_ingredient(ingredient: Ingredient) -> bool:
 		inserted = true
 	
 	return inserted
+
 
 # @main
 func transfer_ingredient(area: Area2D) -> bool:
@@ -52,8 +56,9 @@ func transfer_ingredient(area: Area2D) -> bool:
 	
 	return was_transfered
 
-func prepare_ingridient(timer: Timer) -> bool:
 
+func prepare_ingridient(timer: Timer) -> bool:
+	
 	var can_prepare: bool
 	var recipe = $Recipe.get_child(0)
 	
@@ -63,6 +68,7 @@ func prepare_ingridient(timer: Timer) -> bool:
 		can_prepare = true
 	
 	return can_prepare
+
 
 func prepare_stop(timer: Timer) -> void:
 	var recipe = $Recipe.get_child(0)
@@ -76,16 +82,18 @@ func start_buffering() -> void:
 	$BurnBufferTimer.start()
 	is_buffering = true
 
+
 func stop_buffering() -> void:
 	
 	$BurnBufferTimer.stop()
 	is_buffering = false
+
 
 func burn_ingredient() -> void:
 	
 	emit_signal("buffer_finished")
 	$Recipe.get_child(0).get_node("BurnTimer").start()
 
+
 func stop_burning() -> void:
-	
 	$Recipe.get_child(0).stop_burning()

@@ -41,27 +41,33 @@ var preparation_state: int setget set_preparation_state
 onready var fry_time = preparation_time * .5
 onready var preparation_timer_wait_time: float = preparation_time setget, get_preparation_timer_wait_time
 
+
 func _ready():
 	set_preparation_state()
 
+
 func prepare(action: String, timer: Timer) -> void:
-	var catch: int = timer.connect("timeout", self, str("_on_PreparationTimer_", action, "_timeout"), [timer])
 	
+	var catch: int = timer.connect("timeout", self, str("_on_PreparationTimer_", action, "_timeout"), [timer])
 	assert(catch == OK)
+
 
 func stop(action, timer: Timer) -> void:
 	
 	preparation_timer_wait_time = timer.time_left
 	timer.disconnect("timeout", self, str("_on_PreparationTimer_", action, "_timeout"))
 
+
 func start_burning():
 	
 	emit_signal("burning_started", preparation_state == BURNNED)
 	$BurnTimer.start()
 
+
 func stop_burning():
 	
 	$BurnTimer.stop()
+
 
 # @signals
 func _on_PreparationTimer_cut_timeout(timer: Timer) -> void:
@@ -70,6 +76,7 @@ func _on_PreparationTimer_cut_timeout(timer: Timer) -> void:
 	set_preparation_state()
 	_change_ingridient_sprite("cutted_sprite")
 	timer.disconnect("timeout", self, "_on_PreparationTimer_cut_timeout")
+
 
 func _on_PreparationTimer_fry_timeout(timer: Timer) -> void:
 	
@@ -98,12 +105,14 @@ func _change_ingridient_sprite(type: String, framing: int = 1) -> void:
 		
 		push_warning(str("None texture defined to ", type, " in ", name))
 
+
 func _on_BurnTimer_timeout():
 	
 	print("Fire started")
 	preparation_state = -1 # Optional TODO -> Adicionar sprite queimado
 	$Sprite.frame = 2
 	emit_signal("burning_started", true)
+
 
 # @setters
 func set_preparation_state(type: int = preparation_type) -> void:
@@ -129,18 +138,23 @@ func set_preparation_state(type: int = preparation_type) -> void:
 		preparation_state = 0
 		preparation_timer_wait_time = 0
 
+
 # @setters
 func set_ingredient_label(value: Texture) -> void:
 	ingredient_label = value
 
+
 func set_cutted_sprite(value: Texture) -> void:
 	cutted_sprite = value
+
 
 func set_fried_frames(value: Texture) -> void:
 	fried_frames = value
 
+
 func set_cooked_sprite(value: Texture) -> void:
 	cooked_sprite = value
+
 
 # @getters
 func get_preparation_timer_wait_time() -> float:

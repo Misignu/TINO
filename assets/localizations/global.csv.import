@@ -5,10 +5,10 @@ type="Translation"
 
 [deps]
 
-files=[ "res://assets/localizations/global.en.translation", "res://assets/localizations/global.pt_BR.translation", "res://assets/localizations/global.es.translation" ]
+files=[ "res://assets/localizations/global.en.translation", "res://assets/localizations/global.es.translation", "res://assets/localizations/global.pt_BR.translation" ]
 
 source_file="res://assets/localizations/global.csv"
-dest_files=[ "res://assets/localizations/global.en.translation", "res://assets/localizations/global.pt_BR.translation", "res://assets/localizations/global.es.translation" ]
+dest_files=[ "res://assets/localizations/global.en.translation", "res://assets/localizations/global.es.translation", "res://assets/localizations/global.pt_BR.translation" ]
 
 [params]
 

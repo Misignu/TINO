@@ -8,13 +8,14 @@ var recipe := "Hamburger" setget, get_recipe
 
 onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/ElapsedTime/ProgressBar
 
+
 func _ready():
-	
 	progress_bar.max_value = $LimitTimer.wait_time
 
+
 func _process(_delta):
-	
 	progress_bar.value = $LimitTimer.time_left
+
 
 # @signals
 func _on_Tween_tween_completed(_object, _key):
@@ -22,23 +23,26 @@ func _on_Tween_tween_completed(_object, _key):
 	$AnimationPlayer.play("done")
 	Game.coins -= 50
 
+
 func _on_Timer_timeout():
 	
 	$AnimationPlayer.play("alert")
 	shake()
 
+
 # @main
 func complete():
-	
 	$AnimationPlayer.play("done")
 
+
 func shake() -> void:
-	var catch: bool
 	
-	catch = (
+	var catch: bool = (
 		$Tween.interpolate_method(self, "move", Vector2(shake_amplitude, -shake_amplitude), rect_position, shake_lenght, Tween.TRANS_SINE, Tween.EASE_IN_OUT) and
 		$Tween.start()
 	)
+	assert(catch)
+
 
 func move(target_position):
 	var rand := Vector2()
@@ -47,8 +51,10 @@ func move(target_position):
 	rand.y = rand_range(-target_position.y, target_position.y)
 	rect_position = rand
 
+
 func set_stack_id(value: int):
 	stack_id = value
+
 
 func get_recipe() -> String:
 	return recipe

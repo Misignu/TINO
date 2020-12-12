@@ -243,6 +243,9 @@ func _drop_object() -> void:
 
 
 func _tranfer_object(object: PickableObject, area: Area2D) -> bool:
+	"""
+	Realiza o deslocamento de um objeto mantido pelo jogador para a área colisora.
+	"""
 	var was_transfered: bool
 	
 	if object.has_method("transfer_ingredient"):
@@ -289,7 +292,7 @@ func _stop_action(area: Area2D):
 
 
 func _stop_interaction(timer: Timer):
-
+	
 	is_interacting = false
 	timer.call_deferred("disconnect", "timeout", self, "_stop_interaction")
 

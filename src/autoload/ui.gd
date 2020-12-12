@@ -51,8 +51,20 @@ class Video extends Audio:
 	"""
 	signal fullscreen_mode_changed
 	signal language_changed
+	signal ui_theme_toggled
+	
+	const LIGHT_THEME = preload("res://assets/light_theme.tres")
+	const DARK_THEME = preload("res://assets/ui_theme.tres")
 	
 	onready var language := TranslationServer.get_locale() setget set_language, get_language
+	var is_light_mode_on: bool
+	
+	
+	func toggle_ui_theme(value: bool) -> void:
+		
+		emit_signal("ui_theme_toggled", LIGHT_THEME if value else DARK_THEME)
+		is_light_mode_on = value
+	
 	
 	func set_language(value: String) -> void:
 		
@@ -60,10 +72,12 @@ class Video extends Audio:
 		language = value
 		emit_signal("language_changed", value)
 	
+	
 	func set_fullscreen(mode: bool = !OS.window_fullscreen) -> void:
 		
 		OS.window_fullscreen = mode
 		emit_signal("fullscreen_mode_changed")
+	
 	
 	# @getters
 	func get_language() -> String:

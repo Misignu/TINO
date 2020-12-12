@@ -16,12 +16,22 @@ func _ready() -> void:
 	assert(catch == OK)
 	catch = Game.connect("fullscreen_mode_changed", self, "_on_Game_fullScreen_mode_changed")
 	assert(catch == OK)
+	catch = Game.connect("ui_theme_toggled", self, "_on_Game_ui_theme_toggled")
+	
 	full_screen_checkbox.pressed = OS.window_fullscreen
 	full_screen_checkbox.grab_focus()
+	
+	if Game.is_light_mode_on:
+		theme = Game.LIGHT_THEME
 
 # @signals
 func _on_Game_fullScreen_mode_changed() -> void:
 	full_screen_checkbox.pressed = OS.window_fullscreen
+
+
+func _on_Game_ui_theme_toggled(new_theme: Theme) -> void:
+	theme = new_theme
+
 
 func _on_Game_mute_toggled(channel: int, value: bool) -> void:
 	
@@ -31,13 +41,16 @@ func _on_Game_mute_toggled(channel: int, value: bool) -> void:
 		sfx_mute.disabled = value
 		bsfx_mute.disabled = value
 
+
 func _on_FullScreen_toggled(button_pressed: bool) -> void:
 	
 	if OS.window_fullscreen != button_pressed:
 		Game.set_fullscreen(button_pressed)
 
+
 func _on_FullScreen_CheckBox_focus_entered():
 	$MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel.is_expanded = false
+
 
 func _on_ExpansiblePanel_ecclosion_started():
 	var music_path = $MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/Music.get_path()
@@ -48,6 +61,7 @@ func _on_ExpansiblePanel_ecclosion_started():
 	show_channels_button.focus_neighbour_bottom = music_path
 	$MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/Music/HBoxContainer/MarginContainer/HSlider.grab_focus()
 
+
 func _on_ExpansiblePanel_incclosion_started():
 	
 	tween.stop(scroll_box, "scroll_vertical")
@@ -55,3 +69,7 @@ func _on_ExpansiblePanel_incclosion_started():
 	tween.start()
 	show_channels_button.focus_next = full_screen_checkbox.get_path()
 	show_channels_button.focus_neighbour_bottom = full_screen_checkbox.get_path()
+
+
+func _on_LightCheckbox_toggled(button_pressed: bool) -> void:
+	Game.toggle_ui_theme(button_pressed)

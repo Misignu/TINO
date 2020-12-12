@@ -1,7 +1,9 @@
 extends "res://src/objects/areas/pickable_objects/kitchenwares/pan.gd"
 
+
 func _ready():
 	ingredient_target_state = Ingredient.FRIABLE
+
 
 func insert_ingredient(ingredient: Ingredient) -> bool:
 	var can_insert: bool

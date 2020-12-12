@@ -14,9 +14,14 @@ const LANGUAGES = [
 	\"es\"
 ]
 
+
 func _ready() -> void:
 	
 	set_process(false)
+	Game.connect(\"ui_theme_toggled\", self, \"_on_Game_ui_theme_toggled\")
+	
+	if Game.is_light_mode_on:
+		theme = Game.LIGHT_THEME
 	
 	if \"pt\" in Game.language:
 		get_parent().get_parent().text = tr(\"PT_BR\")
@@ -24,19 +29,28 @@ func _ready() -> void:
 	else:
 		_update_button_text()
 
+
 func _process(_delta) -> void:
 	var trigger: Button = get_parent().get_parent()
 	
 	rect_global_position = trigger.rect_global_position + Vector2(0, trigger.rect_size.y)
 	rect_size = get_parent().get_parent().rect_size
 
+
+# @signals
+func _on_Game_ui_theme_toggled(new_theme: Theme) -> void:
+	theme = new_theme
+
+
 func _on_PopupMenu_about_to_show() -> void:
 	set_process(true)
+
 
 func _on_PopupMenu_popup_hide() -> void:
 	
 	set_process(false)
 	_update_button_text()
+
 
 func _on_LanguageButton_pressed() -> void:
 	
@@ -47,21 +61,24 @@ func _on_LanguageButton_pressed() -> void:
 		popup()
 		grab_focus()
 
+
 func _on_PopupMenu_id_focused(id: int) -> void:
 	_set_button_text(id)
+
 
 func _on_PopupMenu_id_pressed(id):
 	
 	_set_button_text(id)
 	Game.language = LANGUAGES[id]
 
+
 # @main
 func _set_button_text(id: int) -> void:
 	get_parent().get_parent().text = tr(LANGUAGES[id].to_upper())
 
+
 func _update_button_text() -> void:
 	get_parent().get_parent().text = tr(Game.language.to_upper())
-
 "
 
 [node name="Options" type="WindowDialog"]
@@ -100,7 +117,7 @@ scroll_horizontal_enabled = false
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
 margin_right = 224.0
-margin_bottom = 122.0
+margin_bottom = 152.0
 rect_min_size = Vector2( 224, 118 )
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -111,7 +128,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 219.0
-margin_bottom = 117.0
+margin_bottom = 147.0
 rect_min_size = Vector2( 214, 108 )
 custom_constants/separation = 0
 __meta__ = {
@@ -219,14 +236,67 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Volume" parent="MarginContainer/ScrollContainer/MarginContainer/List" instance=ExtResource( 3 )]
+[node name="Theming" type="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List"]
 margin_top = 56.0
 margin_right = 214.0
-margin_bottom = 90.0
+margin_bottom = 86.0
 custom_constants/margin_right = 1
 custom_constants/margin_top = 1
 custom_constants/margin_left = 1
 custom_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/Theming"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 213.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 210, 24 )
+custom_constants/separation = 0
+
+[node name="Theme" type="Label" parent="MarginContainer/ScrollContainer/MarginContainer/List/Theming/HBoxContainer"]
+margin_right = 143.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 130, 28 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "THEME"
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/Theming/HBoxContainer"]
+margin_left = 143.0
+margin_right = 212.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 65, 24 )
+rect_clip_content = true
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/Theming/HBoxContainer/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 67.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 65, 24 )
+size_flags_horizontal = 3
+
+[node name="LightCheckbox" type="CheckBox" parent="MarginContainer/ScrollContainer/MarginContainer/List/Theming/HBoxContainer/MarginContainer/CenterContainer"]
+margin_left = 1.0
+margin_right = 64.0
+margin_bottom = 24.0
+text = "LIGHT"
+
+[node name="Volume" parent="MarginContainer/ScrollContainer/MarginContainer/List" instance=ExtResource( 3 )]
+margin_top = 86.0
+margin_right = 214.0
+margin_bottom = 120.0
+custom_constants/margin_right = 1
+custom_constants/margin_top = 1
+custom_constants/margin_left = 1
+custom_constants/margin_bottom = 1
+channel = 0
 
 [node name="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/Volume" index="0"]
 margin_left = 1.0
@@ -235,14 +305,14 @@ margin_right = 213.0
 margin_bottom = 33.0
 
 [node name="Mute" parent="MarginContainer/ScrollContainer/MarginContainer/List/Volume/HBoxContainer" index="0"]
-margin_right = 81.0
+margin_right = 71.0
 margin_bottom = 32.0
 focus_neighbour_top = NodePath("../../../MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton")
 focus_neighbour_bottom = NodePath("../../../ExpansiblePanel/VBoxContainer/MarginContainer/EcclodeButton")
 focus_previous = NodePath("../../../MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton")
 
 [node name="Padding" parent="MarginContainer/ScrollContainer/MarginContainer/List/Volume/HBoxContainer" index="1"]
-margin_left = 81.0
+margin_left = 71.0
 margin_right = 145.0
 margin_bottom = 32.0
 
@@ -258,9 +328,9 @@ focus_neighbour_bottom = NodePath("../../../../ExpansiblePanel/VBoxContainer/Mar
 focus_next = NodePath("../../../../ExpansiblePanel/VBoxContainer/MarginContainer/EcclodeButton")
 
 [node name="ExpansiblePanel" parent="MarginContainer/ScrollContainer/MarginContainer/List" instance=ExtResource( 4 )]
-margin_top = 90.0
+margin_top = 120.0
 margin_right = 214.0
-margin_bottom = 112.0
+margin_bottom = 142.0
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel" index="0"]
 margin_right = 214.0
@@ -268,11 +338,9 @@ margin_bottom = 124.0
 
 [node name="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer" index="0"]
 margin_right = 214.0
-margin_bottom = 25.0
 
 [node name="EcclodeButton" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/MarginContainer" index="0"]
 margin_right = 212.0
-margin_bottom = 23.0
 focus_neighbour_top = NodePath("../../../../Volume/HBoxContainer/MarginContainer/HSlider")
 focus_neighbour_bottom = NodePath("../../../../FullScreen/CheckBox")
 focus_next = NodePath("../../../../FullScreen/CheckBox")
@@ -280,9 +348,8 @@ focus_previous = NodePath("../../../../Volume/HBoxContainer/MarginContainer/HSli
 text = "CHANNELS"
 
 [node name="Itens" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer" index="1"]
-margin_top = 25.0
 margin_right = 214.0
-margin_bottom = 127.0
+margin_bottom = 124.0
 
 [node name="Music" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens" index="0" instance=ExtResource( 3 )]
 margin_right = 214.0
@@ -292,14 +359,14 @@ channel = 1
 margin_right = 212.0
 
 [node name="Mute" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/Music/HBoxContainer" index="0"]
-margin_right = 72.0
+margin_right = 66.0
 focus_neighbour_top = NodePath("../../../../MarginContainer/EcclodeButton")
 focus_neighbour_bottom = NodePath("../../../BSFXS/HBoxContainer/MarginContainer/HSlider")
 focus_previous = NodePath("../../../../MarginContainer/EcclodeButton")
 text = "MUSIC"
 
 [node name="Padding" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/Music/HBoxContainer" index="1"]
-margin_left = 72.0
+margin_left = 66.0
 margin_right = 143.0
 
 [node name="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/Music/HBoxContainer" index="2"]
@@ -321,14 +388,14 @@ channel = 2
 margin_right = 212.0
 
 [node name="Mute" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/BSFXS/HBoxContainer" index="0"]
-margin_right = 126.0
+margin_right = 110.0
 focus_neighbour_top = NodePath("../../../Music/HBoxContainer/Mute")
 focus_neighbour_bottom = NodePath("../../../SFXS/HBoxContainer/Mute")
 focus_previous = NodePath("../../../Music/HBoxContainer/MarginContainer/HSlider")
 text = "ENVIRONMENT"
 
 [node name="Padding" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/BSFXS/HBoxContainer" index="1"]
-margin_left = 126.0
+margin_left = 110.0
 margin_right = 143.0
 
 [node name="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/BSFXS/HBoxContainer" index="2"]
@@ -350,14 +417,14 @@ channel = 3
 margin_right = 212.0
 
 [node name="Mute" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/SFXS/HBoxContainer" index="0"]
-margin_right = 64.0
+margin_right = 58.0
 focus_neighbour_top = NodePath("../../../BSFXS/HBoxContainer/Mute")
 focus_neighbour_bottom = NodePath("../../../../../../FullScreen/CheckBox")
 focus_previous = NodePath("../../../BSFXS/HBoxContainer/MarginContainer/HSlider")
 text = "SFXS"
 
 [node name="Padding" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/SFXS/HBoxContainer" index="1"]
-margin_left = 64.0
+margin_left = 58.0
 margin_right = 143.0
 
 [node name="MarginContainer" parent="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel/VBoxContainer/Itens/SFXS/HBoxContainer" index="2"]
@@ -377,6 +444,7 @@ focus_next = NodePath("../../../../../../../FullScreen/CheckBox")
 [connection signal="id_focused" from="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" to="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" method="_on_PopupMenu_id_focused"]
 [connection signal="id_pressed" from="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" to="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" method="_on_PopupMenu_id_pressed"]
 [connection signal="popup_hide" from="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" to="MarginContainer/ScrollContainer/MarginContainer/List/MarginContainer2/Language/MarginContainer/CenterContainer/LanguageButton/CanvasLayer/PopupMenu" method="_on_PopupMenu_popup_hide"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/MarginContainer/List/Theming/HBoxContainer/MarginContainer/CenterContainer/LightCheckbox" to="." method="_on_LightCheckbox_toggled"]
 [connection signal="ecclosion_started" from="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel" to="." method="_on_ExpansiblePanel_ecclosion_started"]
 [connection signal="incclosion_started" from="MarginContainer/ScrollContainer/MarginContainer/List/ExpansiblePanel" to="." method="_on_ExpansiblePanel_incclosion_started"]
 
