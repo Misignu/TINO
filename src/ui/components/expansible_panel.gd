@@ -10,7 +10,9 @@ var is_expanded: bool = false setget set_is_expanded
 func _ready():
 	
 	$VBoxContainer.rect_size = rect_size
-	Game.connect("ui_theme_toggled", self, "_on_Game_ui_theme_toggled")
+	
+	if Game.connect("ui_theme_toggled", self, "_on_Game_ui_theme_toggled") != OK:
+		push_error("Wouldn't able to connect %s to %s." % [Game, self])
 	
 	if Game.is_light_mode_on:
 		theme = Game.LIGHT_THEME

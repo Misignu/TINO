@@ -1,7 +1,7 @@
 tool
 extends "res://src/objects/areas/pick_place.gd"
 
-export(Game.ingredients_ids) var igridient_id: int = 0 setget set_ingredient_id
+export(Game.IngredientsIds) var igridient_id: int = 0 setget set_ingredient_id
 var ingredient: Resource
 
 func _ready() -> void:

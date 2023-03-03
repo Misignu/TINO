@@ -38,7 +38,7 @@ var available_characters: = [
 
 onready var join_the_party = _build_panel_message(\"Press\", \"to join\", \"the party\") if Engine.editor_hint else _build_panel_message(tr(\"PRESS\"), tr(\"JOIN\"), tr(\"PARTY\"))
 onready var boost_the_timer = _build_panel_message(tr(\"HOLD\"), tr(\"BOOST\"), tr(\"TIMER\"), \"ACTION\", \"{color}\")
-onready var instructions: Label = $MarginContainer/VBoxContainer/CenterContainer/Label
+onready var instructions: RichTextLabel = $MarginContainer/VBoxContainer/CenterContainer/Label
 onready var character_texture_rect: TextureRect = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/MarginContainer/TextureRect
 onready var button_right: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer/MarginContainer/LeftButton
 onready var button_left: TextureButton = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer2/MarginContainer/RightButton
@@ -190,8 +190,7 @@ func _on_Panel_base_color_changed(color: Color):
 	update()
 "
 
-[sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0.0431373, 0.792157, 0.415686, 1 )
+[sub_resource type="StyleBoxFlat" id=5]
 
 [sub_resource type="GDScript" id=6]
 script/source = "tool
@@ -290,7 +289,7 @@ margin_right = 215.0
 margin_bottom = 321.0
 rect_min_size = Vector2( 0, 220 )
 rect_clip_content = true
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 5 )
 script = SubResource( 6 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
@@ -390,8 +389,8 @@ text = "Press START
 to join
 the party"
 script = SubResource( 13 )
-[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/CenterContainer/Label" method="_on_Panel_base_color_changed"]
 [connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/PanelContainer" method="_on_Panel_base_color_changed"]
+[connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/CenterContainer/Label" method="_on_Panel_base_color_changed"]
 [connection signal="base_color_changed" from="." to="MarginContainer/VBoxContainer/Label" method="_on_Panel_base_color_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer/MarginContainer/LeftButton" to="." method="_on_LeftButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/CenterContainer2/MarginContainer/RightButton" to="." method="_on_RightButton_pressed"]

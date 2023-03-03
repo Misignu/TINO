@@ -19,12 +19,13 @@ func _ready() -> void:
 
 func _input(event) -> void:
 	
-	if event.is_pressed():
-		
-		for device in Game.devices:
-			verify_inputs(event, device)
+	if not event.is_pressed():
+		return
+	
+	for device in Game.DEVICES:
+		verify_inputs(event, device)
 
-# @signals
+
 func _on_Tween_tween_completed(object, key) -> void:
 	var catch: int
 	

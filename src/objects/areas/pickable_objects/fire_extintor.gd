@@ -36,12 +36,6 @@ func _on_GasRange_area_exited(area: Area2D) -> void:
 func _on_AnimationBuffer_timeout() -> void:
 	gas_player.stop()
 
-# @override
-func grab() -> PickableObject:
-	
-	get_parent().remove_child(self)
-	position = Vector2.ZERO
-	return .grab()
 
 # @override
 func drop(pos: Vector2) -> void:

@@ -1,0 +1,200 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/sprites/placeholders/turncoat_iii_spysw33per.png" type="Texture" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://src/scenarios/world_map.gd" type="Script" id=3]
+
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 color_sample: hint_color;
+uniform float gray_amount;
+
+vec3 grayscale(vec3 col) {
+	return vec3(((col.r + col.g + col.b) / 3.0));
+}
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV).rgba;
+	
+	if (col == color_sample) {
+		col.a = 0.0;
+	}
+	
+	if (gray_amount > 0.0) {
+		vec3 col3 = vec3(col.rgb);
+		
+		col.rgb = mix(col3, grayscale(col3), vec3(gray_amount));
+	}
+	
+	COLOR = col;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/color_sample = Color( 1, 1, 1, 1 )
+shader_param/gray_amount = 0.0
+
+[sub_resource type="Animation" id=3]
+resource_name = "gray_down"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/gray_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/color_sample = Color( 1, 1, 1, 1 )
+shader_param/gray_amount = 1.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "gray_down"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/gray_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 1 )
+shader_param/color_sample = Color( 1, 1, 1, 1 )
+shader_param/gray_amount = 1.0
+
+[sub_resource type="Animation" id=7]
+resource_name = "gray_down"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/gray_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 1 )
+shader_param/color_sample = Color( 1, 1, 1, 1 )
+shader_param/gray_amount = 1.0
+
+[sub_resource type="Animation" id=9]
+resource_name = "gray_down"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/gray_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "rotate"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ), Vector2( -1, 1 ), Vector2( 1e-05, 1 ) ]
+}
+
+[node name="WorldMap" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 0.411765, 0.631373, 0.309804, 1 )
+polygon = PoolVector2Array( 0, 0, 1024, 0, 1024, 576, 0, 576 )
+
+[node name="Places" type="Node2D" parent="."]
+
+[node name="Place" type="Sprite" parent="Places"]
+material = SubResource( 2 )
+position = Vector2( 520, 128 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, 62 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 145, 124 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Places/Place"]
+anims/gray_down = SubResource( 3 )
+
+[node name="Place2" type="Sprite" parent="Places"]
+material = SubResource( 4 )
+position = Vector2( 216, 240 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, 62 )
+region_enabled = true
+region_rect = Rect2( 580, 0, 145, 124 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Places/Place2"]
+anims/gray_down = SubResource( 5 )
+
+[node name="Place3" type="Sprite" parent="Places"]
+material = SubResource( 6 )
+position = Vector2( 792, 248 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, 62 )
+region_enabled = true
+region_rect = Rect2( 145, 124, 145, 124 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Places/Place3"]
+anims/gray_down = SubResource( 7 )
+
+[node name="Place4" type="Sprite" parent="Places"]
+material = SubResource( 8 )
+position = Vector2( 456, 424 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, 62 )
+region_enabled = true
+region_rect = Rect2( 145, 372, 145, 124 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Places/Place4"]
+anims/gray_down = SubResource( 9 )
+
+[node name="Arrow" type="Node2D" parent="."]
+scale = Vector2( 0.75, 0.75 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Arrow"]
+scale = Vector2( 0.61938, 1 )
+color = Color( 0.0431373, 0.792157, 0.415686, 1 )
+texture = ExtResource( 2 )
+polygon = PoolVector2Array( -32, -32, 32, -32, 0, 32 )
+uv = PoolVector2Array( 0, 0, 64, 0, 32, 64 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arrow/Polygon2D"]
+autoplay = "rotate"
+anims/rotate = SubResource( 10 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

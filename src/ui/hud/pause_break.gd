@@ -10,7 +10,8 @@ onready var confirmation_dialog: ConfirmationDialog = $CanvasLayer/ConfirmationD
 
 func _ready() -> void:
 	
-	Game.connect("ui_theme_toggled", self, "_on_Game_ui_theme_toggled")
+	if Game.connect("ui_theme_toggled", self, "_on_Game_ui_theme_toggled") != OK:
+		push_error("Wouldn't able to connect %s to %s." % [Game, self])
 	
 	if Game.is_light_mode_on:
 		$CanvasLayer/ConfirmationDialog.theme = Game.LIGHT_THEME

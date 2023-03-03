@@ -5,7 +5,7 @@ Kitchenwares são Pickable Objects que podem conter Ingredients que formam uma r
 var current_ingredients: PoolStringArray = []
 
 
-func insert_ingredient(ingredient):
+func insert_ingredient(ingredient: Ingredient):
 	
 	$Recipe.add_child(ingredient)
 	current_ingredients.append(ingredient.name)

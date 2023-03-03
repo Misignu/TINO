@@ -21,6 +21,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
 
+
 func _ready() -> void:
 	
 	var player: Game.Player
@@ -32,7 +33,7 @@ func _ready() -> void:
 		player = Game.players[i]
 		character = $Scene/Players.get_child(i)
 		
-		if  player.is_device_atached():
+		if player.is_device_atached():
 			
 			character.get_node(\"Sprite\").texture = Game.players[i].character
 			character.set_controller_index(player.device)
@@ -126,8 +127,16 @@ position = Vector2( 136, 72 )
 [node name="PickPlace11" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
 position = Vector2( 88, 72 )
 
+[node name="PickPlace13" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
+position = Vector2( 103, 72 )
+put_object = ExtResource( 12 )
+
 [node name="PickPlace12" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
 position = Vector2( 56, 72 )
+
+[node name="PickPlace30" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
+position = Vector2( 40, 72 )
+put_object = ExtResource( 12 )
 
 [node name="PickPlace14" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
 position = Vector2( 24, 120 )
@@ -165,6 +174,10 @@ position = Vector2( 200, 120 )
 [node name="PickPlace25" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
 position = Vector2( 152, 72 )
 
+[node name="PickPlace29" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
+position = Vector2( 167, 72 )
+put_object = ExtResource( 12 )
+
 [node name="PickPlace26" parent="Scene/SceneObjects/Tabbles" instance=ExtResource( 6 )]
 position = Vector2( 184, 72 )
 
@@ -189,13 +202,20 @@ position = Vector2( 235, 30 )
 
 [node name="Box1" parent="Scene/SceneObjects/Boxes" instance=ExtResource( 3 )]
 position = Vector2( 200, 24 )
+collision_mask = 0
+put_object = null
+igridient_id = 0
 
 [node name="Box2" parent="Scene/SceneObjects/Boxes" instance=ExtResource( 3 )]
 position = Vector2( 216, 24 )
+collision_mask = 0
+put_object = null
 igridient_id = 2
 
 [node name="Box3" parent="Scene/SceneObjects/Boxes" instance=ExtResource( 3 )]
 position = Vector2( 232, 24 )
+collision_mask = 0
+put_object = null
 igridient_id = 1
 
 [node name="Cutters" type="Node2D" parent="Scene/SceneObjects"]
@@ -206,10 +226,12 @@ __meta__ = {
 [node name="CutPlace1" parent="Scene/SceneObjects/Cutters" instance=ExtResource( 2 )]
 position = Vector2( 88, 120 )
 rotation = 3.14159
+collision_mask = 0
 
 [node name="CutPlace2" parent="Scene/SceneObjects/Cutters" instance=ExtResource( 2 )]
 position = Vector2( 152, 120 )
 rotation = 3.14159
+collision_mask = 0
 
 [node name="Stoves" type="Node2D" parent="Scene/SceneObjects"]
 __meta__ = {
@@ -218,28 +240,13 @@ __meta__ = {
 
 [node name="Stove1" parent="Scene/SceneObjects/Stoves" instance=ExtResource( 4 )]
 position = Vector2( 72, 24 )
+collision_mask = 0
 pan_path = "res://src/objects/areas/pickable_objects/kitchenwares/pans/frying_pan.tscn"
 
 [node name="Stove2" parent="Scene/SceneObjects/Stoves" instance=ExtResource( 4 )]
 position = Vector2( 136, 24 )
+collision_mask = 0
 pan_path = "res://src/objects/areas/pickable_objects/kitchenwares/pans/frying_pan.tscn"
-
-[node name="Plates" type="Node2D" parent="Scene/SceneObjects"]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Plate1" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
-position = Vector2( 167, 72 )
-collision_mask = 2
-
-[node name="Plate2" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
-position = Vector2( 103, 72 )
-collision_mask = 2
-
-[node name="Plate3" parent="Scene/SceneObjects/Plates" instance=ExtResource( 12 )]
-position = Vector2( 39, 72 )
-collision_mask = 2
 
 [node name="FireExtintor" parent="Scene/SceneObjects" instance=ExtResource( 13 )]
 position = Vector2( 232, 104 )
@@ -248,18 +255,22 @@ collision_mask = 2
 
 [node name="Trash" parent="Scene/SceneObjects" instance=ExtResource( 10 )]
 position = Vector2( 231, 72 )
+collision_mask = 0
 
 [node name="Treadmill" parent="Scene/SceneObjects" instance=ExtResource( 14 )]
 position = Vector2( 24, 88 )
 rotation = -1.5708
+collision_mask = 0
 
 [node name="DirtPlatesTable" parent="Scene/SceneObjects" instance=ExtResource( 11 )]
 position = Vector2( 24, 104 )
 rotation = -1.5708
+collision_mask = 0
 
 [node name="Sink" parent="Scene/SceneObjects" instance=ExtResource( 15 )]
 position = Vector2( 224, 120 )
 rotation = 3.14159
+collision_mask = 0
 
 [node name="Players" type="YSort" parent="Scene"]
 scale = Vector2( 0.5, 0.5 )
@@ -292,6 +303,7 @@ __meta__ = {
 
 [node name="HUD" parent="." instance=ExtResource( 7 )]
 layer = 2
+order_min_frequency = 10
 order_max_frequency = 45
 clients_min_wait_time = 30
 clients_max_wait_time = 90
@@ -307,8 +319,5 @@ color = Color( 0.218228, 0, 0.479323, 0.00966355 )
 stream = ExtResource( 9 )
 autoplay = true
 bus = "Music"
-[connection signal="object_delivered" from="Scene/SceneObjects/Trash" to="Scene/SceneObjects/DirtPlatesTable" method="_on_Trash_object_delivered"]
-[connection signal="object_delivered" from="Scene/SceneObjects/Treadmill" to="Scene/SceneObjects/DirtPlatesTable" method="_on_Treadmill_object_delivered"]
-[connection signal="recipe_delived" from="Scene/SceneObjects/Treadmill" to="HUD" method="_on_Treadmill_recipe_delived"]
 
 [editable path="PauseBreak"]

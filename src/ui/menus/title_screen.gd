@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const NEXT_SCENE = "res://src/ui/menus/player_selection.tscn"
+const NEXT_SCENE = "res://src/scenarios/world_map.tscn"
 const ANIM = "out"
 
 onready var options: WindowDialog = $Options

@@ -1,21 +1,22 @@
-"""
-General-Purpose Script that Pack some Classes that deals with some UI behaviors
-"""
+# General-Purpose Script that Pack some Classes that deals with some UI behaviors
 
+
+# General Singleton Class that deals with Audio.
 class Audio extends Node:
-	"""
-	General Singleton Class that deals with Audio.
-	"""
+	
 	signal volume_changed
 	signal mute_toggled
 	
 	const VOLUME_STEP = 0.1
 	
+	
 	func increase_volume(channel: int = AudioServer.get_bus_index("Master")) -> void:
 		set_volume(linear2db(db2linear(AudioServer.get_bus_volume_db(channel))  + VOLUME_STEP), channel)
 	
+	
 	func decrease_volume(channel: int = AudioServer.get_bus_index("Master")) -> void:
 		set_volume(linear2db(db2linear(AudioServer.get_bus_volume_db(channel))  - VOLUME_STEP), channel)
+	
 	
 	func set_volume(value: float, channel: int = AudioServer.get_bus_index("Master")) -> void:
 		
@@ -39,16 +40,17 @@ class Audio extends Node:
 			
 			mute_toggle(channel)
 	
+	
 	func mute_toggle(channel: int = AudioServer.get_bus_index("Master")) -> void:
 		var value = not AudioServer.is_bus_mute(channel)
 		
 		AudioServer.set_bus_mute(channel, value)
 		emit_signal("mute_toggled", channel, value)
 
+
+# General Singleton Class Deals with Video
 class Video extends Audio:
-	"""
-	General Singleton Class Deals with Video
-	"""
+	
 	signal fullscreen_mode_changed
 	signal language_changed
 	signal ui_theme_toggled
@@ -82,3 +84,47 @@ class Video extends Audio:
 	# @getters
 	func get_language() -> String:
 		return language
+
+
+class UI extends Video:
+	# Deals with gamer input general behaiours
+	
+	# Negative values are keyboard devices, positive are gamepads.
+	const DEVICES = [-2, -1, 1, 2, 3]
+	
+	
+	func _ready() -> void:
+		
+		pause_mode = Node.PAUSE_MODE_PROCESS
+		
+		if Input.connect("joy_connection_changed", self, "_on_joy_connection_changed") != OK:
+			assert(true)
+	
+	
+	func _input(event: InputEvent) -> void:
+		
+		if Engine.is_editor_hint():
+			return
+		
+		if event.is_action_pressed("full_screen_mode_shift"):
+			set_fullscreen()
+		
+		if event.is_action_pressed("decrease_volume"):
+			decrease_volume()
+		
+		if event.is_action_pressed("increase_volume"):
+			increase_volume()
+	
+	
+	# Optional TODO -> Implementar atualização de Players DEVICES
+	func _on_joy_connection_changed(device_id, is_connected):
+		
+		if is_connected:
+			
+			print(Input.get_joy_name(device_id))
+			
+		else:
+			print("Keyboard")
+	
+	func change_scene(to: String) -> void:
+		get_tree().call_deferred("change_scene", to)

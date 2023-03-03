@@ -209,18 +209,18 @@ func _grab_object(area: Area2D) -> void:
 
 
 func _insert_object(area: Area2D) -> void:
-	
+	# Objeto que o jogador está segurando no momento
 	var object: PickableObject = pos_grabbed_object.get_child(0)
 	
 	if object is Ingredient and area.has_method("insert_ingredient"):
-		
+		# Tentando inserir ingrediente
 		object.origin = get_parent().get_parent()
 		pos_grabbed_object.remove_child(object)
 		
 		if not area.call("insert_ingredient", object):
 			pos_grabbed_object.add_child(object)
 		
-	elif not _tranfer_object(object, area):
+	elif not _tranfer_object(object, area): # Tentando transferir objeto
 		
 		if area.has_method("insert_object"):
 			
@@ -246,14 +246,10 @@ func _tranfer_object(object: PickableObject, area: Area2D) -> bool:
 	"""
 	Realiza o deslocamento de um objeto mantido pelo jogador para a área colisora.
 	"""
-	var was_transfered: bool
-	
 	if object.has_method("transfer_ingredient"):
-		
-		if object.call("transfer_ingredient", area):
-			was_transfered = true
+		return object.call("transfer_ingredient", area)
 	
-	return was_transfered
+	return false
 
 
 func _fire_action(area: Area2D):

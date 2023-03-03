@@ -50,6 +50,8 @@ func transfer_ingredient(area: Area2D) -> bool:
 		
 		if area.has_method("insert_ingredient"):
 			was_transfered = area.insert_ingredient(ingredient)
+		elif area.has_method("provide_ingredient"):
+			was_transfered = area.provide_ingredient(ingredient)
 		
 		if not was_transfered:
 			.insert_ingredient(ingredient)

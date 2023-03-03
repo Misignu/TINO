@@ -1,21 +1,20 @@
 tool
-extends "res://src/autoload/ui.gd".Video
-"""
-Singleton that deals with this Game General data and behaviors
-"""
+extends "res://src/autoload/ui.gd".UI
+
+# Singleton that deals with this Game General data and behaviors
+
 signal coins_changed
 
-enum ingredients_ids {
+enum IngredientsIds {
 	BREAD = 0,
 	MEAT = 1,
 	LETTUCE = 2
 }
 
-const devices = [-2, -1, 1, 2, 3]
 const ingredients = {
-	ingredients_ids.BREAD: "res://src/objects/areas/pickable_objects/ingredients/bread.tscn",
-	ingredients_ids.MEAT: "res://src/objects/areas/pickable_objects/ingredients/meat.tscn",
-	ingredients_ids.LETTUCE: "res://src/objects/areas/pickable_objects/ingredients/lettuce.tscn"
+	IngredientsIds.BREAD: "res://src/objects/areas/pickable_objects/ingredients/bread.tscn",
+	IngredientsIds.MEAT: "res://src/objects/areas/pickable_objects/ingredients/meat.tscn",
+	IngredientsIds.LETTUCE: "res://src/objects/areas/pickable_objects/ingredients/lettuce.tscn"
 }
 
 var coins: int = 50 setget set_coins
@@ -26,37 +25,7 @@ var players := [
 	Player.new()
 ] setget set_players
 
-func _ready() -> void:
-	var catch: int
-	
-	pause_mode = Node.PAUSE_MODE_PROCESS
-	catch = Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
-	assert(catch == OK)
 
-func _input(event: InputEvent) -> void:
-	
-	if not Engine.is_editor_hint():
-		
-		if event.is_action_pressed("full_screen_mode_shift"):
-			set_fullscreen()
-		
-		if event.is_action_pressed("decrease_volume"):
-			decrease_volume()
-		
-		if event.is_action_pressed("increase_volume"):
-			increase_volume()
-
-# @signals
-func _on_joy_connection_changed(device_id, is_connected): # Optional TODO -> Implementar atualização de Players devices
-	
-	if is_connected:
-		
-		print(Input.get_joy_name(device_id))
-		
-	else:
-		print("Keyboard")
-
-# @main
 func has_players_selected() -> bool:
 	var value := false
 	
@@ -68,6 +37,7 @@ func has_players_selected() -> bool:
 			break
 	
 	return value
+
 
 func is_player_atached_to_device(index: int) -> int:
 	var player_index: int = -1
@@ -81,6 +51,7 @@ func is_player_atached_to_device(index: int) -> int:
 	
 	return player_index
 
+
 func get_availlable_player_index() -> int:
 	var value: int
 	
@@ -93,11 +64,11 @@ func get_availlable_player_index() -> int:
 	
 	return value
 
-# @gettets
+
 func get_igredient_data(ingredients_id: int) -> String:
 	return ingredients[ingredients_id]
 
-# @setters
+
 func set_players(new_array: Array):
 	
 	var player: Player
@@ -115,16 +86,18 @@ func set_players(new_array: Array):
 	
 	players = new_array
 
+
 func set_coins(value: int) -> void:
 	var catch: int
 	
 	if value <= 0:
-
+		
 		catch = get_tree().change_scene("res://src/ui/eyecatchers/game_over.tscn")
 		assert(catch == OK)
 	
 	emit_signal("coins_changed", value, value < coins)
 	coins = value
+
 
 class Player:
 	
@@ -138,12 +111,14 @@ class Player:
 		id = -1
 		character = null
 	
+	
+	func is_device_atached() -> bool:
+		return device != 0
+	
+	
 	func set_id(value):
 		
 		if value < 0:
 			clear()
 		
 		id = value
-	
-	func is_device_atached() -> bool:
-		return device != 0

@@ -1,11 +1,11 @@
 extends Particles2D
-"""
-Esse Particles2D é um módulo que dá a capacidade objetos serem incendiados.
-"""
+
+# Esse Particles2D é um módulo que dá a capacidade objetos serem incendiados.
+
 signal fire_started
 signal fire_finished
 
-const BANISH_FIRE_TIME = 3
+const BANISH_FIRE_TIME = 1
 
 var is_firing: bool setget set_is_firing
 var fire_intensity: float = 1.0
@@ -21,33 +21,32 @@ func _ready() -> void:
 	process_material = process_material.duplicate(true)
 
 
-# @signals
 func _on_FireExtintor_extintor_started() -> void:
 	
 	var duration: float = BANISH_FIRE_TIME * fire_intensity
-	var catch: bool
 	
-	catch = (
-		tween.stop(self, "process_material:scale") and
-		tween.interpolate_property(self, "fire_intensity", fire_intensity, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
-		tween.interpolate_property(self, "process_material:scale", process_material.scale, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
-		tween.start()
-	)
-	assert(catch)
+	if not (
+			tween.stop(self, "process_material:scale") and
+			tween.interpolate_property(
+				self, "fire_intensity", fire_intensity, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+			) and tween.interpolate_property(
+					self, "process_material:scale", process_material.scale, 0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+			) and tween.start()
+	):
+		push_error("Wouldn't able to interpolate :process_material on %d" % self)
 
 
 func _on_FireExtintor_extintor_finished() -> void:
 	
 	var duration: float = BANISH_FIRE_TIME * (1.0 - fire_intensity)
-	var catch: int
 	
-	catch = (
+	if not (
 		tween.stop(self, "fire_intensity") and
 		tween.stop(self, "process_material:scale") and
 		tween.interpolate_property(self, "fire_intensity", fire_intensity, 1.0, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) and
 		tween.interpolate_property(self, "process_material:scale", process_material.scale, fire_max_scale, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	)
-	assert(catch)
+	):
+		push_error("Wouldn't able to interpolate property :process_material:scale at %d." % self)
 
 
 func _on_Area2D_area_entered(area: Area2D) -> void:

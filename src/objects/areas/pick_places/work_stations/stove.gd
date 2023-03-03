@@ -13,8 +13,11 @@ onready var alert_player: AnimationPlayer = $FireAlert/AnimationPlayer
 onready var texture_rect: TextureRect = $FireAlert/TextureRect
 
 func _ready() -> void:
-	var new_pan = load(pan_path).instance().grab()
+	var new_pan = load(pan_path).instance()
 	var catch: bool
+	add_child(new_pan)
+	yield(get_tree(), "idle_frame")
+	new_pan.grab()
 	
 	if pan_path != "":
 		
