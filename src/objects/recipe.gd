@@ -1,4 +1,5 @@
 extends Sprite
+class_name Recipe
 """
 @notes
 	ingredients é um array que localiza o frame da receita conforme as coordenadas do frame atual e o nome do ingredient sendo inserido
@@ -20,6 +21,8 @@ export(Array) var steps := [ # O valor armazenado aqui serve de placeholder para
 		}
 	]
 ]
+export var done_frame: int# = 2
+
 
 func add_ingredient(ingredient: Ingredient) -> bool:
 	var current_frame = frame
@@ -27,7 +30,7 @@ func add_ingredient(ingredient: Ingredient) -> bool:
 	for ingredient_name in steps[frame_coords.x][frame_coords.y]:
 		
 		if ingredient_name in ingredient.name:
-			print()
+			#print()
 			frame = steps[frame_coords.x][frame_coords.y][ingredient_name]
 			break
 	
@@ -36,3 +39,7 @@ func add_ingredient(ingredient: Ingredient) -> bool:
 func get_price() -> int:
 	
 	return price
+
+
+func is_done() -> bool:
+	return frame == done_frame

@@ -5,3 +5,4 @@
 
 [node name="TomatoHamburger" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+done_frame = 11

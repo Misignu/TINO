@@ -1,6 +1,7 @@
 tool
 extends "res://src/objects/recipe.gd"
 
+
 func _ready():
 	ingredients = [
 		"Meat",

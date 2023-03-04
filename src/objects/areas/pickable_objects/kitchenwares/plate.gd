@@ -11,7 +11,7 @@ const HAMBURGER = preload("res://src/objects/recipes/hamburger.tscn")
 
 var is_clean := true setget set_is_clean
 var cleaning_time_left: float = CLEANING_TIME
-var current_recipe: Sprite = null setget set_current_recipe
+var current_recipe: Recipe = null setget set_current_recipe
 
 onready var dirt_sprite: Sprite = $Sprite/DirtOverlay
 onready var pos_recipe: Position2D = $Recipe
@@ -44,7 +44,7 @@ func insert_ingredient(ingredient: Ingredient) -> bool:
 	return can_insert
 
 
-func set_current_recipe(value: Sprite) -> void:
+func set_current_recipe(value: Recipe) -> void:
 	
 	if value == null:
 		set_is_clean(false)

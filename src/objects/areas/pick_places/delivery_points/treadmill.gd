@@ -4,6 +4,7 @@ Treadmill é um DeliveryPoint que recebe pratos com receitas prontas e retorna u
 """
 signal recipe_delived
 
+
 func _on_Tween_tween_completed(object, key: String) -> void:
 	
 	if "Plate" in object.name and key == ":modulate":
@@ -11,18 +12,19 @@ func _on_Tween_tween_completed(object, key: String) -> void:
 		_buffer_delivery(.remove_object())
 		object.is_clean = false
 
+
 # @override
 func _on_buffer_timeout(object: PickableObject, buffer: Timer) -> void:
 	
 	object.modulate = Color.white
 	._on_buffer_timeout(object, buffer)
 
+
 func insert_object(object: PickableObject) -> bool:
 	var was_inserted: bool
 	
 	if "Plate" in object.name:
-		
-		if object.get_recipe() != null and object.is_clean:
+		if object.current_recipe != null and object.is_clean and object.current_recipe.is_done():
 			was_inserted = .insert_object(object)
 	
 	if was_inserted:
@@ -30,8 +32,10 @@ func insert_object(object: PickableObject) -> bool:
 	
 	return was_inserted
 
+
 func remove_object():
 	return null
+
 
 # @main
 func _delivery_animation(plate: PickableObject) -> void:

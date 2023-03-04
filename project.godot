@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "PickableObject",
 "language": "GDScript",
 "path": "res://src/objects/areas/pickable_object.gd"
+}, {
+"base": "Sprite",
+"class": "Recipe",
+"language": "GDScript",
+"path": "res://src/objects/recipe.gd"
 } ]
 _global_script_class_icons={
 "Ingredient": "res://assets/sprites/hud/ingredients.svg",
-"PickableObject": "res://assets/sprites/hud/drag.svg"
+"PickableObject": "res://assets/sprites/hud/drag.svg",
+"Recipe": ""
 }
 
 [application]

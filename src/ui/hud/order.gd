@@ -2,6 +2,7 @@ extends NinePatchRect
 
 export var shake_amplitude: float = 5.0 # distance in pixels
 export var shake_lenght: float = 1.0 # duration in secounds
+export var order_cost: int = 50
 
 var stack_id: int setget set_stack_id
 var recipe := "Hamburger" setget, get_recipe
@@ -21,7 +22,7 @@ func _process(_delta):
 func _on_Tween_tween_completed(_object, _key):
 	
 	$AnimationPlayer.play("done")
-	Game.coins -= 50
+	Game.coins -= order_cost
 
 
 func _on_Timer_timeout():

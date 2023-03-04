@@ -262,7 +262,7 @@ position = Vector2( 24, 88 )
 rotation = -1.5708
 collision_mask = 0
 
-[node name="DirtPlatesTable" parent="Scene/SceneObjects" instance=ExtResource( 11 )]
+[node name="ReturnStation" parent="Scene/SceneObjects" instance=ExtResource( 11 )]
 position = Vector2( 24, 104 )
 rotation = -1.5708
 collision_mask = 0
@@ -303,7 +303,6 @@ __meta__ = {
 
 [node name="HUD" parent="." instance=ExtResource( 7 )]
 layer = 2
-order_min_frequency = 10
 order_max_frequency = 45
 clients_min_wait_time = 30
 clients_max_wait_time = 90
@@ -319,5 +318,8 @@ color = Color( 0.218228, 0, 0.479323, 0.00966355 )
 stream = ExtResource( 9 )
 autoplay = true
 bus = "Music"
+[connection signal="object_delivered" from="Scene/SceneObjects/Trash" to="Scene/SceneObjects/ReturnStation" method="_on_Trash_object_delivered"]
+[connection signal="object_delivered" from="Scene/SceneObjects/Treadmill" to="Scene/SceneObjects/ReturnStation" method="_on_Treadmill_object_delivered"]
+[connection signal="recipe_delived" from="Scene/SceneObjects/Treadmill" to="HUD" method="_on_Treadmill_recipe_delived"]
 
 [editable path="PauseBreak"]

@@ -21,3 +21,4 @@ steps = [ [ {
 }, {
 "Meat": 3
 } ] ]
+done_frame = 3

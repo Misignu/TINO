@@ -68,9 +68,7 @@ func remove_object() -> PickableObject:
 	var object: PickableObject
 	
 	if not is_burning and pos_current_object.get_child_count() == 1:
-		
-		object = pos_current_object.get_child(0)
-		pos_current_object.remove_child(object.grab())
+		object = pos_current_object.get_child(0).grab()
 	
 	return object
 

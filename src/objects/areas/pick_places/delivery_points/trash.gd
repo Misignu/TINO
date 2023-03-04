@@ -1,5 +1,6 @@
 extends "res://src/objects/areas/pick_places/delivery_point.gd"
 
+
 func _on_Tween_tween_completed(object, key: String) -> void:
 	
 	if object is PickableObject and key == ":scale":
@@ -11,6 +12,7 @@ func _on_Tween_tween_completed(object, key: String) -> void:
 			
 			_buffer_delivery(.remove_object())
 			object.scale = Vector2.ONE
+
 
 # @override
 func insert_object(object: PickableObject) -> bool:
@@ -24,5 +26,13 @@ func insert_object(object: PickableObject) -> bool:
 	
 	return inserted
 
+
 func remove_object():
 	return null
+
+
+func provide_ingredient(_ingredient: Ingredient) -> bool:
+	"""
+	Providencia um ingrediente para ser despejado.
+	"""
+	return true
